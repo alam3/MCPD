@@ -46,6 +46,21 @@ namespace PeopleApp {
             // foreach (Person child in bob.Children) {
             //     WriteLine($"  {child.Name}");
             // }
+
+            // Adding shared bank account interest and bank accounts
+            BankAccount.InterestRate = 0.012M; // Shared value across all BankAccount objects
+            var jonesAccount = new BankAccount();
+            jonesAccount.AccountName = "Mrs. Jones";
+            jonesAccount.Balance = 2400;
+            WriteLine("{0} earned {1:C} interest.",
+                      arg0: jonesAccount.AccountName,
+                      arg1: jonesAccount.Balance * BankAccount.InterestRate);
+            var gerrierAccount = new BankAccount();
+            gerrierAccount.AccountName = "Ms. Gerrier";
+            gerrierAccount.Balance = 98;
+            WriteLine("{0} earned {1:C} interest.",
+                      arg0: gerrierAccount.AccountName,
+                      arg1: gerrierAccount.Balance * BankAccount.InterestRate);
         }
     }
 }
