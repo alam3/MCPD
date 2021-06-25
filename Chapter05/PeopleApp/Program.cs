@@ -67,7 +67,15 @@ namespace PeopleApp {
 
             // Read-only fields
             WriteLine($"{bob.Name} was born on {bob.HomePlanet}");
+
+            // Using constructors
             Person blankPerson = new Person();
+            WriteLine("{0} of {1} was created at {2:hh:mm:ss} on a {2:dddd}.",
+                      arg0: blankPerson.Name,
+                      arg1: blankPerson.HomePlanet,
+                      arg2: blankPerson.Instantiated);
+
+            Person gunny = new Person("Gunny", "Mars");
             WriteLine("{0} of {1} was created at {2:hh:mm:ss} on a {2:dddd}.",
                       arg0: blankPerson.Name,
                       arg1: blankPerson.HomePlanet,
