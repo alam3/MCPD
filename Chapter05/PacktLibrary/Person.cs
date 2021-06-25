@@ -20,5 +20,14 @@ namespace Packt.Shared {
         // Read-only fields - better alternative to constants
         // Could also be made static to share across all instances of the type
         public readonly string HomePlanet = "Earth";
+
+        // Initializing fields with constructors
+        public readonly DateTime Instantiated;
+        // Person-type object constructor
+        public Person() {
+            // Set values upon object instantiation
+            Name = "Unknown";
+            Instantiated = DateTime.Now;
+        }
     }
 }
