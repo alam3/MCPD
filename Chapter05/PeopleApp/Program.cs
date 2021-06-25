@@ -80,6 +80,10 @@ namespace PeopleApp {
                       arg0: blankPerson.Name,
                       arg1: blankPerson.HomePlanet,
                       arg2: blankPerson.Instantiated);
+
+            // Calling Methods
+            bob.WriteToConsole();
+            WriteLine(bob.GetOrigin());
         }
     }
 }
