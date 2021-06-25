@@ -64,6 +64,9 @@ namespace PeopleApp {
 
             // Constant fields
             WriteLine($"{bob.Name} is a {Person.Species}");
+
+            // Read-only fields
+            WriteLine($"{bob.Name} was born on {bob.HomePlanet}");
         }
     }
 }

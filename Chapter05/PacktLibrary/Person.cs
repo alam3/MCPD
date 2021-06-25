@@ -16,5 +16,9 @@ namespace Packt.Shared {
 
         // Constant fields
         public const string Species = "Homo Sapien";
+
+        // Read-only fields - better alternative to constants
+        // Could also be made static to share across all instances of the type
+        public readonly string HomePlanet = "Earth";
     }
 }
