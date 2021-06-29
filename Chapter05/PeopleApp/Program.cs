@@ -88,6 +88,9 @@ namespace PeopleApp {
             // Calling a tuple method
             (string, int) fruit = bob.GetFruit();
             WriteLine($"{fruit.Item1}, {fruit.Item2} there are.");
+            // Using var
+            var fruitNamed = bob.GetNamedFruit();
+            WriteLine($"There are {fruitNamed.Name} {fruitNamed.Number}.");
         }
     }
 }
