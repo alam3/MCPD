@@ -104,7 +104,16 @@ namespace PeopleApp {
 
             // Methods with parameters
             WriteLine(bob.SayHello());
-            WriteLine(bob.SayHello("Emily")));
+            WriteLine(bob.SayHello("Emily"));
+
+            // Calling default parameters of a method with optional parameters
+            WriteLine(bob.OptionalParameters());
+            // Adding optional parameters in a method call
+            WriteLine(bob.OptionalParameters("Jump!", 98.5));
+            // Using naming to mix up parameter call order
+            WriteLine(bob.OptionalParameters(number: 52.7, command: "Hide!"));
+            // Naming allows skipping parameters
+            WriteLine(bob.OptionalParameters("Poke!", active: false));
         }
     }
 }
