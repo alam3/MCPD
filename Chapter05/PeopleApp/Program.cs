@@ -84,6 +84,10 @@ namespace PeopleApp {
             // Calling Methods
             bob.WriteToConsole();
             WriteLine(bob.GetOrigin());
+
+            // Calling a tuple method
+            (string, int) fruit = bob.GetFruit();
+            WriteLine($"{fruit.Item1}, {fruit.Item2} there are.");
         }
     }
 }

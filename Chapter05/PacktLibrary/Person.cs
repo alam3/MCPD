@@ -44,5 +44,10 @@ namespace Packt.Shared {
         public string GetOrigin() {
             return $"{Name} was born on {HomePlanet}.";
         }
+
+        // Tuple-return methods
+        public (string, int) GetFruit() {
+            return ("Apples", 5);
+        }
     }
 }
