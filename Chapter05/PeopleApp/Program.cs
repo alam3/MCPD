@@ -101,6 +101,10 @@ namespace PeopleApp {
             // Tuple deconstruction (e.g. assigning directly to separate vars)
             (string fruitName, int fruitNumber) = bob.GetFruit();
             WriteLine($"Deconstructed: {fruitName}, {fruitNumber}");
+
+            // Methods with parameters
+            WriteLine(bob.SayHello());
+            WriteLine(bob.SayHello("Emily")));
         }
     }
 }

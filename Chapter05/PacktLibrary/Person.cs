@@ -54,5 +54,14 @@ namespace Packt.Shared {
             // return (Name: "Apples", Number: 5);
             return ("Apples", 5);
         }
+
+        // Method parameters & method overload
+        public string SayHello() {
+            return $"{Name} says 'Hello!'";
+        }
+        // Overloaded method 'SayHello'
+        public string SayHello(string name) {
+            return $"{Name} says 'Hello {name}!'";
+        }
     }
 }
