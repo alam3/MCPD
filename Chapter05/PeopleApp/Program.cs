@@ -98,7 +98,7 @@ namespace PeopleApp {
             var thing2 = (bob.Name, bob.Children.Count);
             WriteLine($"{thing2.Name} has {thing2.Count} children.");
 
-            // Tuple deconstruction (e.g. assigning directly to tupled vars)
+            // Tuple deconstruction (e.g. assigning directly to separate vars)
             (string fruitName, int fruitNumber) = bob.GetFruit();
             WriteLine($"Deconstructed: {fruitName}, {fruitNumber}");
         }
