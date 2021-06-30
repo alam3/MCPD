@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using static System.Console;
 
 namespace Packt.Shared {
-    public class Person : object {
+    public partial class Person : object {
         // fields
         public string Name;
         public DateTime DateOfBirth;
@@ -78,5 +78,8 @@ namespace Packt.Shared {
             y++;
             z++;
         }
+
+        // Splitting a class using the 'partial' keyword - see PersonAutoGen.cs
+        // Added "partial" to Person class
     }
 }

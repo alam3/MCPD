@@ -132,6 +132,23 @@ namespace PeopleApp {
             WriteLine($"Before: d = {d}, e = {e}, f doesn't exist yet!");
             bob.PassingParameters(d, ref e, out int f);
             WriteLine($"After: d = {d}, e = {e}, f = {f}");
+            // 'ref' can also be used to pass a variable location as a return value
+            // e.g., 'return ref x_var;'
+
+            // Readonly properties on partial "PersonAutoGen.cs"
+            var sam = new Person {
+                Name = "Sam",
+                DateOfBirth = new DateTime(1972, 1, 27)
+            };
+            WriteLine(sam.Origin);
+            WriteLine(sam.Greeting);
+            WriteLine(sam.Age);
+
+            // Settable properties
+            sam.FavoriteIceCream = "Chocolate Fudge";
+            WriteLine($"Sam's favorite ice-cream flavor is {sam.FavoriteIceCream}.");
+            sam.FavoritePrimaryColor = "Red";
+            WriteLine($"Sam's favorite primary color is {sam.FavoritePrimaryColor}.");
         }
     }
 }
