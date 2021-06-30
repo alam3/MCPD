@@ -31,5 +31,17 @@ namespace Packt.Shared {
                 }
             }
         }
+
+        // Using Indexer to allow array-like accessor syntax to a property
+        // Indexing the 'Person' class Children field
+        public Person this[int index] {
+            get {
+                return Children[index];
+            }
+            set {
+                Children[index] = value;
+            }
+        }
+        // Indexer can be overloaded using a different indexing type
     }
 }
