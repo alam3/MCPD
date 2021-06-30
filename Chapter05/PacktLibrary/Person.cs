@@ -69,5 +69,14 @@ namespace Packt.Shared {
             return string.Format("command is {0}, number is {1}, active is {2}", 
                                  arg0: command, arg1: number, arg2: active);
         }
+
+        // Controlling parameters passed in a call
+        public void PassingParameters(int x, ref int y, out int z) {
+            // 'out' parameters must be initialized inside the method
+            z = 99;
+            x++;
+            y++;
+            z++;
+        }
     }
 }

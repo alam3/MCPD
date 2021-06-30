@@ -114,6 +114,24 @@ namespace PeopleApp {
             WriteLine(bob.OptionalParameters(number: 52.7, command: "Hide!"));
             // Naming allows skipping parameters
             WriteLine(bob.OptionalParameters("Poke!", active: false));
+
+            // Examples of parameter control
+            int a = 10;
+            int b = 20;
+            int c = 30;
+            WriteLine($"Before: a = {a}, b = {b}, c = {c}");
+            bob.PassingParameters(a, ref b, out c);
+            WriteLine($"After: a = {a}, b = {b}, c = {c}");
+            // For a, only the value is passed, e.g. method has an internal copy
+            // For b, the variable location and value is passed to the method
+            // For c, the variable location is passed, to be assigned from within the method
+
+            // Showing how an 'out' var is created within the method
+            int d = 10;
+            int e = 20;
+            WriteLine($"Before: d = {d}, e = {e}, f doesn't exist yet!");
+            bob.PassingParameters(d, ref e, out int f);
+            WriteLine($"After: d = {d}, e = {e}, f = {f}");
         }
     }
 }
