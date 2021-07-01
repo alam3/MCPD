@@ -194,6 +194,13 @@ namespace PeopleApp {
                 };
                 WriteLine($"Flight costs {flightCost:C} for {passenger}");
             }
+
+            // Instantiate object with 'init' keyword in properties
+            var jeff = new ImmutablePerson { 
+                FirstName = "Jeff",
+                LastName = "Winger"
+            };
+            // jeff.FirstName = "Geoff"; // shows error as it can only be assigned during initialization
         }
     }
 }
