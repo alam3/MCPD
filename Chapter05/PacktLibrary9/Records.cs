@@ -14,16 +14,19 @@ namespace Packt.Shared {
     }
 
     // Record using a constructor with positional parameters and deconstructor
-    public record ImmutableAnimal {
-        string Name;
-        string Species;
-        public ImmutableAnimal(string name, string species) {
-            Name = name;
-            Species = species;
-        }
-        public void Deconstruct(out string name, out string species) {
-            name = Name;
-            species = Species;
-        }
-    }
+    // public record ImmutableAnimal {
+    //     string Name;
+    //     string Species;
+    //     public ImmutableAnimal(string name, string species) {
+    //         Name = name;
+    //         Species = species;
+    //     }
+    //     public void Deconstruct(out string name, out string species) {
+    //         name = Name;
+    //         species = Species;
+    //     }
+    // }
+
+    // Simplified definition of the same constructed and deconstructed record
+    public record ImmutableAnimal(string Name, string Species);
 }
