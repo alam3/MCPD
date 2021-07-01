@@ -160,7 +160,7 @@ namespace PeopleApp {
             WriteLine($"Sam's first child is {sam[0].Name}");
             WriteLine($"Sam's second child is {sam[1].Name}");
 
-            // Pattern matching with objects (FlightPatterns.cs)
+            // Pattern matching with objects (FlightPatterns.cs), C# 8.0
             object[] passengers = {
                 new FirstClassPassenger { AirMiles = 1_419 },
                 new FirstClassPassenger { AirMiles = 16_562 },
@@ -169,13 +169,27 @@ namespace PeopleApp {
                 new CoachClassPassenger { CarryOnKG = 0 }
             };
             foreach (object passenger in passengers) {
+                // The '_' is required syntax in C# 8.0, but not in C# 9.0
+                // decimal flightCost = passenger switch {
+                //     FirstClassPassenger p when p.AirMiles > 35000 => 1500M,
+                //     FirstClassPassenger p when p.AirMiles > 15000 => 1750M,
+                //     FirstClassPassenger _                         => 2000M,
+                //     BusinessClassPassenger _                      => 1000M,
+                //     CoachClassPassenger p when p.CarryOnKG < 10.0 => 500M,
+                //     CoachClassPassenger _                         => 650M,
+                //     _                                             => 800M
+                // };
+
+                // Syntax in C# 9.0; not no '_' and nested switch expression
                 decimal flightCost = passenger switch {
-                    FirstClassPassenger p when p.AirMiles > 35000 => 1500M,
-                    FirstClassPassenger p when p.AirMiles > 15000 => 1750M,
-                    FirstClassPassenger _                         => 2000M,
-                    BusinessClassPassenger _                      => 1000M,
+                    FirstClassPassenger p => p.AirMiles switch {
+                        > 35000 => 1500M,
+                        > 15000 => 1750M,
+                        _       => 2000M
+                    },
+                    BusinessClassPassenger                        => 1000M,
                     CoachClassPassenger p when p.CarryOnKG < 10.0 => 500M,
-                    CoachClassPassenger _                         => 650M,
+                    CoachClassPassenger                           => 650M,
                     _                                             => 800M
                 };
                 WriteLine($"Flight costs {flightCost:C} for {passenger}");
