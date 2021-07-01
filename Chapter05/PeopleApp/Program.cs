@@ -201,6 +201,17 @@ namespace PeopleApp {
                 LastName = "Winger"
             };
             // jeff.FirstName = "Geoff"; // shows error as it can only be assigned during initialization
+
+            // Create a car from an immutable Record
+            var car = new ImmutableVehicle {
+                Brand = "Mazda MX-5 RF", // Author of culture
+                Color = "Soul Red Crystal Metallic",
+                Wheels = 4
+            };
+            // Mutate a copy of the Record
+            var repaintedCar = car with { Color = "Polymetal Grey Metallic" };
+            WriteLine("Original color was {0}, new color is {1}.",
+                      arg0: car.Color, arg1: repaintedCar.Color);
         }
     }
 }
