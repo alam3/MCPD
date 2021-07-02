@@ -26,7 +26,8 @@ namespace PeopleApp {
                       harry.Name,
                       harry.Children[0].Name);
 
-            
+            // Calling a method with a local function
+            WriteLine($"5! is {Person.Factorial(5)}");
         }
     }
 }

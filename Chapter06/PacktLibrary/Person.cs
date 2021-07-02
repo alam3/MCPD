@@ -32,5 +32,19 @@ namespace Packt.Shared {
         public static Person operator *(Person p1, Person p2) {
             return Person.Procreate(p1, p2);
         }
+
+        // Local or Inner functions in a method
+        public static int Factorial(int number) {
+            if (number < 0) {
+                throw new ArgumentException($"{nameof(number)} cannot be less than zero.");
+            }
+            return localFactorial(number);
+            
+            // The local function
+            int localFactorial(int localNumber) {
+                if (localNumber < 1) return 1;
+                return localNumber * localFactorial(localNumber - 1);
+            }
+        }
     }
 }
