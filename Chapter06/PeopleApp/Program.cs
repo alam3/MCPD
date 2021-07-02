@@ -36,6 +36,23 @@ namespace PeopleApp {
             harry.Poke();
             harry.Poke(); // Triggers event
             harry.Poke(); // Triggers event
+
+            // Interfaces - IComparable
+            Person[] people = { new Person { Name = "Simon" },
+                                new Person { Name = "Jenny" },
+                                new Person { Name = "Adam" },
+                                new Person { Name = "Richard" } };
+
+            WriteLine("Initial list of people:");
+            foreach (Person person in people) {
+                WriteLine($"  {person.Name}");
+            }
+
+            WriteLine("Use Person's IComparable implementation to sort:");
+            Array.Sort(people);
+            foreach (Person person in people) {
+                WriteLine($"  {person.Name}");
+            }
         }
 
         // Example of delegates and implementing events
