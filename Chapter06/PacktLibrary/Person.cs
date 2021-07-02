@@ -39,12 +39,33 @@ namespace Packt.Shared {
                 throw new ArgumentException($"{nameof(number)} cannot be less than zero.");
             }
             return localFactorial(number);
-            
+
             // The local function
             int localFactorial(int localNumber) {
                 if (localNumber < 1) return 1;
                 return localNumber * localFactorial(localNumber - 1);
             }
         }
+
+        // Example of using delegates and implementing events
+        // Event delegate field
+        public EventHandler Shout;
+        // Data field
+        public int AngerLevel;
+        // method - if "poked" 3 times, raise "Shout" event
+        public void Poke() {
+            AngerLevel++;
+            if (AngerLevel >= 3) {
+                // if something is listening...
+                if (Shout != null) {
+                    // ...then call the delegate
+                    Shout(this, EventArgs.Empty);
+                }
+                // C#6.0+ simplified inline null-check call
+                // Shout?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+
     }
 }
