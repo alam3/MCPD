@@ -49,9 +49,13 @@ namespace Packt.Shared {
 
         // Example of using delegates and implementing events
         // Event delegate field
-        public EventHandler Shout;
+        // Add a 'event' keyword so the delegate field can only have
+        // methods assigned or removed using '+=' or "-=" respectively
+        public event EventHandler Shout;
+
         // Data field
         public int AngerLevel;
+        
         // method - if "poked" 3 times, raise "Shout" event
         public void Poke() {
             AngerLevel++;

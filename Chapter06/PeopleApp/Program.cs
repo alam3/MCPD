@@ -30,7 +30,7 @@ namespace PeopleApp {
             WriteLine($"5! is {Person.Factorial(5)}");
 
             // Statement assigning method to delegate field
-            harry.Shout = Harry_Shout;
+            harry.Shout += Harry_Shout;
             // Do the poking...
             harry.Poke();
             harry.Poke();
