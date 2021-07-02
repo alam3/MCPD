@@ -53,6 +53,13 @@ namespace PeopleApp {
             foreach (Person person in people) {
                 WriteLine($"  {person.Name}");
             }
+
+            // Using the ICompare implementation - 'PersonComparer.cs'
+            WriteLine("Use PersonComparer's IComparer implementation to sort:");
+            Array.Sort(people, new PersonComparer());
+            foreach (Person person in people) {
+                WriteLine($"  {person.Name}");
+            }
         }
 
         // Example of delegates and implementing events
