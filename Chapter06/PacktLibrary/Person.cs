@@ -26,5 +26,11 @@ namespace Packt.Shared {
         public Person ProcreateWith(Person partner) {
             return Procreate(this, partner);
         }
+
+        // Adding operators to perform class functions
+        // This simplifies syntax, but is obfuscated from the programmer
+        public static Person operator *(Person p1, Person p2) {
+            return Person.Procreate(p1, p2);
+        }
     }
 }

@@ -15,12 +15,18 @@ namespace PeopleApp {
 
             // static method call
             var baby2 = Person.Procreate(harry, jill);
+            
+            // Calling the operator assigned to a function
+            Person baby3 = harry * mary; // what a cheating bastard
+
             WriteLine($"{harry.Name} has {harry.Children.Count} children.");
             WriteLine($"{mary.Name} has {mary.Children.Count} children.");
             WriteLine($"{jill.Name} has {jill.Children.Count} children.");
             WriteLine("{0}'s first child is named \"{1}\".",
                       harry.Name,
                       harry.Children[0].Name);
+
+            
         }
     }
 }
