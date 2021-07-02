@@ -3,7 +3,7 @@ using static System.Console;
 using System.Collections.Generic;
 
 namespace Packt.Shared {
-    public class Person: IComparable<Person> {
+    public class Person : IComparable<Person> {
         public string Name;
         public DateTime DateOfBirth;
         public List<Person> Children = new List<Person>();
@@ -70,6 +70,7 @@ namespace Packt.Shared {
             }
         }
 
+        // Method implementation of IComparable Interface
         public int CompareTo(Person other)
         {
             return Name.CompareTo(other.Name);
