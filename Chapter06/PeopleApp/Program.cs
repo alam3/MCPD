@@ -62,16 +62,26 @@ namespace PeopleApp {
             }
 
             // Type Generics - how a non-generic works
-            // Despite being able to take any object type, the function
-            // doesn't work as expected
+            // Despite being able to take any 'object', the function
+            // doesn't work as expected:
+
+            // fails despite data and input being the same value
             var t1 = new Thing();
             t1.Data = 42;
             WriteLine($"Thing with an integer: {t1.Process(42)}");
+
+            // works
             var t2 = new Thing();
             t2.Data = "apple";
             WriteLine($"Thing with a string: {t2.Process("apple")}");
 
-
+            // Example of a Generic
+            var gt1 = new GenericThing<int>();
+            gt1.Data = 42;
+            WriteLine($"GenericThing with an integer: {gt1.Process(42)}");
+            var gt2 = new GenericThing<string>();
+            gt2.Data = "apple";
+            WriteLine($"GenericThing with a string: {gt2.Process("apple")}");
         }
 
         // Example of delegates and implementing events
