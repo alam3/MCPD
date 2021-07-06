@@ -93,6 +93,14 @@ namespace PeopleApp {
                       arg0: number2,
                       // Note that specifying <type> isn't required
                       arg1: Squarer.Square(number2));
+
+            // Managing memory with REFERENCES vs VALUE types
+            // Using a 'struct' (value type)
+            var dv1 = new DisplacementVector(3, 5);
+            DisplacementVector dv2 = new DisplacementVector(-2, 7);
+            var dv3 = dv1 + dv2;
+            WriteLine($"({dv1.X}, {dv1.Y}) + ({dv2.X}, {dv2.Y}) = ({dv3.X}, {dv3.Y})");
+            
         }
 
         // Example of delegates and implementing events
