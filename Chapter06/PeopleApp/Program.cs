@@ -107,7 +107,13 @@ namespace PeopleApp {
                 Name = "John Jones",
                 DateOfBirth = new DateTime(1990, 7, 28)
             };
-            john.WriteToConsole();
+            john.WriteToConsole(); // Note how 'Person' class functionality is accessible
+
+            // Adding extra functionality to the 'Employee' class
+            // This is not available in an instance of the 'Person' class
+            john.EmployeeCode = "JJ001";
+            john.HireDate = new DateTime(2014, 11, 23);
+            WriteLine($"{john.Name} was hired on {john.HireDate:dd/MM/yy}");
         }
 
         // Example of delegates and implementing events
