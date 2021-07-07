@@ -114,6 +114,9 @@ namespace PeopleApp {
             john.EmployeeCode = "JJ001";
             john.HireDate = new DateTime(2014, 11, 23);
             WriteLine($"{john.Name} was hired on {john.HireDate:dd/MM/yy}");
+
+            // Overriding parent method (instead of hiding)
+            WriteLine(john.ToString());
         }
 
         // Example of delegates and implementing events
