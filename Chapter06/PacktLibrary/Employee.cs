@@ -18,10 +18,15 @@ namespace Packt.Shared {
         }
 
         // Overriding parent methods, in this case 'ToString()'
-        public override string ToString()
-        {
-            // 'base' gives access to the parent class members
-            return $"{Name} is a {base.ToString()}";
+        // Inheritance and overriding can be prevented with the 'sealed' keyword
+        // public override string ToString() {
+        //     // 'base' gives access to the parent class members
+        //     return $"{Name} is a {base.ToString()}";
+        // }
+        
+        // Non-polymorphic inheritance vs. Polymorphic inheritance
+        public override string ToString() {
+            return $"{Name}'s code is {EmployeeCode}";
         }
     }
 }

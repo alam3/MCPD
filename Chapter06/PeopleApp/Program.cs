@@ -117,6 +117,18 @@ namespace PeopleApp {
 
             // Overriding parent method (instead of hiding)
             WriteLine(john.ToString());
+
+            // Testing Non-polymorphic vs. Polymorphic inheritance
+            Employee aliceInEmployee = new Employee {
+                Name = "Alice", EmployeeCode = "AA123" };
+            Person aliceInPerson = aliceInEmployee; // Declared as 'Person', but object is still 'Employee' type
+            // Hiding is Non-polymorphic inheritance
+            aliceInEmployee.WriteToConsole(); // calls method in 'Employee'
+            aliceInPerson.WriteToConsole(); // calls method in 'Person' - compiler cannot tell it is an 'Employee'
+            // Overriding is Polymorphic inheritance
+            WriteLine(aliceInEmployee.ToString()); // calls method in 'Employee'
+            WriteLine(aliceInPerson.ToString()); // calls method in 'Employee' - the 'override' and 'virtual' flag for the compiler
+
         }
 
         // Example of delegates and implementing events
