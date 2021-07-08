@@ -129,6 +129,25 @@ namespace PeopleApp {
             WriteLine(aliceInEmployee.ToString()); // calls method in 'Employee'
             WriteLine(aliceInPerson.ToString()); // calls method in 'Employee' - the 'override' and 'virtual' flag for the compiler
 
+            
+            // Explicit casting within inheritance hierarchies
+            // from 'Person' to 'Employee'
+            // Employee explicitAlice = aliceInPerson; // Does not work
+            // Employee explicitAlice = (Employee) aliceInPerson; // No problem due to explicit cast
+
+            // Avoiding casting exceptions
+            // E.g. what if aliceInPerson turns out to be a different derived type?
+            // Check first with 'is' keyword, which compares object types
+            if (aliceInPerson is Employee) {
+                WriteLine($"{nameof(aliceInPerson)} IS an Employee");
+                Employee explicitAlice = (Employee) aliceInPerson;
+            }
+
+            // Using 'as' keyword for cast. Returns 'null' if it can't be cast
+            Employee aliceAsEmployee = aliceInPerson as Employee;
+            if (aliceAsEmployee != null) {
+                WriteLine($"{nameof(aliceInPerson)} AS an Employee");
+            }
         }
 
         // Example of delegates and implementing events
