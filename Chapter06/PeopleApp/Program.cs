@@ -148,6 +148,15 @@ namespace PeopleApp {
             if (aliceAsEmployee != null) {
                 WriteLine($"{nameof(aliceInPerson)} AS an Employee");
             }
+
+            // Inheriting .NET Type
+            // Test: Derived Exception inheriting from .NET Exception type
+            try {
+                john.TimeTravel(new DateTime(1999, 12, 31));
+                john.TimeTravel(new DateTime(1950, 12, 25));
+            } catch (PersonException ex) {
+                WriteLine(ex.Message);
+            }
         }
 
         // Example of delegates and implementing events
