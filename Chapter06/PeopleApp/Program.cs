@@ -168,6 +168,15 @@ namespace PeopleApp {
             WriteLine("{0} is a valid e-mail address: {1}",
                       arg0: email2,
                       arg1: StringExtensions.IsValidEmail(email2));
+
+            // Use Extension Methods to improve extension
+            WriteLine("{0} is a valid e-mail address: {1}",
+                      arg0: email1,
+                      // Note how you can simply use the string variable
+                      arg1: email1.IsValidEmail());
+            WriteLine("{0} is a valid e-mail address: {1}",
+                      arg0: email2,
+                      arg1: email2.IsValidEmail());
         }
 
         // Example of delegates and implementing events
