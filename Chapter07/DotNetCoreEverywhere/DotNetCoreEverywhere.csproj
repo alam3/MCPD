@@ -6,6 +6,7 @@
     <RuntimeIdentifiers>
       win10-x64;osx-x64;rhel.7.4-x64
     </RuntimeIdentifiers>
+    <DebugType>embedded</DebugType>
   </PropertyGroup>
 
 </Project>
