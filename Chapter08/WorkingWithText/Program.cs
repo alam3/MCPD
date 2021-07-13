@@ -25,6 +25,14 @@ namespace WorkingWithText {
             foreach (string item in citiesTabSplitArray) {
                 WriteLine(item);
             }
+
+            // Getting part of a string
+            string fullName = "Alan Jones";
+            int indexOfTheSpace = fullName.IndexOf(' ');
+            string firstName = fullName.Substring(0, indexOfTheSpace);
+            string lastName = fullName.Substring(indexOfTheSpace + 1);
+            WriteLine($"First name: {firstName}.");
+            WriteLine($"Last name: {lastName}.");
         }
     }
 }
