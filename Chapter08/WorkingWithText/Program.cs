@@ -31,6 +31,7 @@ namespace WorkingWithText {
             int indexOfTheSpace = fullName.IndexOf(' ');
             string firstName = fullName.Substring(0, indexOfTheSpace);
             string lastName = fullName.Substring(indexOfTheSpace + 1);
+            WriteLine($"Index of space character: {indexOfTheSpace}");
             WriteLine($"First name: {firstName}.");
             WriteLine($"Last name: {lastName}.");
         }
