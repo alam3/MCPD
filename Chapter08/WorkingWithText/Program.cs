@@ -34,6 +34,12 @@ namespace WorkingWithText {
             WriteLine($"Index of space character: {indexOfTheSpace}");
             WriteLine($"First name: {firstName}.");
             WriteLine($"Last name: {lastName}.");
+
+            // Checking a string for content
+            string company = "Microsoft";
+            bool startsWithM = company.StartsWith("M");
+            bool containsN = company.Contains("N");
+            WriteLine($"Starts with M: {startsWithM}, contains an N: {containsN}");
         }
     }
 }
