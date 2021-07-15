@@ -62,7 +62,13 @@ namespace WorkingWithText {
             WriteLine($"Trim start: \"{whitespaceString.TrimStart()}\"");
             WriteLine($"Trim end: \"{whitespaceString.TrimEnd()}\"");
 
-            
+            string removeThis = "removeTHIS";
+            WriteLine($"{removeThis} => {removeThis.Remove(6, 4)}");
+            string insertThis = "insert";
+            WriteLine($"{insertThis} => {insertThis.Insert(6, "THIS")}");
+            string replaceThis = "replaceTHIS";
+            WriteLine($"{replaceThis} => {replaceThis.Replace("THIS", "THAT")}");
+
         }
     }
 }
