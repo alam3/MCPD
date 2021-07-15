@@ -50,6 +50,19 @@ namespace WorkingWithText {
             DateTime when = DateTime.Today;
             WriteLine($"{fruit} cost {price:C} on {when:dddd}s."); // '$' token formatting
             WriteLine(string.Format("{0} cost {1:C} on {2:dddd}s.", fruit, price, when)); // Formatting with string.Format()
+
+            string lowerCaseString = "i am lower case";
+            WriteLine($"{lowerCaseString} => to upper case => {lowerCaseString.ToUpper()}");
+            string upperCaseString = "I AM UPPER CASE";
+            WriteLine($"{upperCaseString} => to lower case => {upperCaseString.ToLower()}");
+
+            string whitespaceString = "    <-4 spaces | 8 spaces ->        ";
+            WriteLine($"Original string: \"{whitespaceString}\"");
+            WriteLine($"Trim both: \"{whitespaceString.Trim()}\"");
+            WriteLine($"Trim start: \"{whitespaceString.TrimStart()}\"");
+            WriteLine($"Trim end: \"{whitespaceString.TrimEnd()}\"");
+
+            
         }
     }
 }
