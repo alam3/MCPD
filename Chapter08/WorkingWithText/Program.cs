@@ -40,6 +40,16 @@ namespace WorkingWithText {
             bool startsWithM = company.StartsWith("M");
             bool containsN = company.Contains("N");
             WriteLine($"Starts with M: {startsWithM}, contains an N: {containsN}");
+
+            // Additional string members (joining, formatting, etc.)
+            string recombined = string.Join(" => ", citiesCommaSplitArray); // first input determines the "joining" element
+            WriteLine(recombined);
+
+            string fruit = "Apples";
+            decimal price = 0.39M; // Haha apples for $0.39, nice joke
+            DateTime when = DateTime.Today;
+            WriteLine($"{fruit} cost {price:C} on {when:dddd}s."); // '$' token formatting
+            WriteLine(string.Format("{0} cost {1:C} on {2:dddd}s.", fruit, price, when)); // Formatting with string.Format()
         }
     }
 }
