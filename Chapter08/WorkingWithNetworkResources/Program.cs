@@ -1,6 +1,7 @@
 ﻿using System;
 using static System.Console;
 using System.Net;
+using System.Net.NetworkInformation; // For pinging a server
 
 namespace WorkingWithNetworkResources {
     class Program {
@@ -27,6 +28,20 @@ namespace WorkingWithNetworkResources {
             WriteLine($"{entry.HostName} has the following IP addresses:");
             foreach (IPAddress address in entry.AddressList) {
                 WriteLine($" {address}");
+            }
+
+
+            // Pinging a server using imported System.Net.NetworkInformation
+            try {
+                var ping = new Ping();
+                WriteLine("Pinging server. Please wait...");
+                PingReply reply = ping.Send(uri.Host);
+                WriteLine($"{uri.Host} was pinged and replied: {reply.Status}");
+                if (reply.Status == IPStatus.Success) {
+                    WriteLine("Reply from {0} took {1:N0}ms", reply.Address, reply.RoundtripTime);
+                }
+            } catch (Exception ex) {
+                WriteLine($"{ex.GetType().ToString()} says {ex.Message}");
             }
         }
     }
