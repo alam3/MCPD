@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using static System.Console;
+using System.Collections.Immutable; // Creating immutable collections
 
 namespace WorkingWithLists {
     class Program {
@@ -28,6 +29,23 @@ namespace WorkingWithLists {
             foreach (string city in cities) {
                 WriteLine($" {city}");
             }
+
+
+            // Creating immutable collections through extension methods provided by System.Collections.Immutable
+            var immutableCities = cities.ToImmutableList();
+            
+            var newList = immutableCities.Add("Rio");
+            Write("Immutable list of cities:");
+            foreach (string city in immutableCities) {
+                Write($" {city}");
+            }
+            WriteLine();
+            Write("New list of cities:");
+            foreach (string city in newList) {
+                Write($" {city}");
+            }
+            WriteLine();
+            WriteLine("Note that the immutable list does not contain \"Rio\" through the .Add() method");
         }
     }
 }
