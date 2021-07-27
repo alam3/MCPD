@@ -1,6 +1,9 @@
 ﻿using System;
 using static System.Console;
 using System.Reflection;
+using System.Linq; // For custom attributes. Import to use OrderByDescending
+using System.Runtime.CompilerServices; // For custom services. Import to use CompilerGeneratedAttribute
+using Packt.Shared; // For custom attributes. Import to bring in CoderAttribute class
 
 namespace WorkingWithReflection {
     class Program {
@@ -21,6 +24,12 @@ namespace WorkingWithReflection {
             WriteLine($" Version: {version.InformationalVersion}");
             var company = assembly.GetCustomAttribute<AssemblyCompanyAttribute>();
             WriteLine($" Company: {company.Company}");
+        }
+
+        [Coder("Mark Price", "22 August 2019")]
+        [Coder("Johnni Rasmussen", "13 September 2019")]
+        public static void DoStuff() {
+            
         }
     }
 }
