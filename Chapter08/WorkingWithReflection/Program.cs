@@ -14,6 +14,13 @@ namespace WorkingWithReflection {
             foreach (Attribute a in attributes) {
                 WriteLine($" {a.GetType()}");
             }
+
+
+            // Adding information. These show generic info when run without editing the *.csproj
+            var version = assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>();
+            WriteLine($" Version: {version.InformationalVersion}");
+            var company = assembly.GetCustomAttribute<AssemblyCompanyAttribute>();
+            WriteLine($" Company: {company.Company}");
         }
     }
 }
