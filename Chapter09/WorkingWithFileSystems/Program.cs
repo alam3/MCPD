@@ -10,7 +10,8 @@ namespace WorkingWithFileSystems {
         static void Main(string[] args) {
             // OutputFileSystemInfo();
             // WorkingWithDrives();
-            WorkingWithDirectories();
+            // WorkingWithDirectories();
+            WorkingWithFiles();
         }
 
         // Look at how paths are different depending on the Operating System
@@ -42,7 +43,7 @@ namespace WorkingWithFileSystems {
             }
         }
 
-        // Using Directory, Path, and Environment static classes
+        // Using Directory, Path, and Environment static classes - Directories
         static void WorkingWithDirectories() {
             // Directory path for a new folder, starting from the user's folder
             var newFolder = Combine(GetFolderPath(SpecialFolder.Personal), "CS_Projects", "MCPD",
@@ -62,6 +63,37 @@ namespace WorkingWithFileSystems {
             WriteLine("Deleting it...");
             Delete(newFolder, recursive: true);
             WriteLine($"Does it exist? {Exists(newFolder)}");
+        }
+
+        // Files
+        // Not statically importing 'Files' as some methods will conflict with System.IO.Directory
+        static void WorkingWithFiles() {
+            // define a directory path to ouput files, starting from the user's folder
+            var dir = Combine(GetFolderPath(SpecialFolder.Personal), "CS_Projects", "MCPD", "Chapter09", "OutputFiles");
+            CreateDirectory(dir);
+            // define file paths
+            string textFile = Combine(dir, "Dummy.txt");
+            string backupFile = Combine(dir, "Dummy.bak");
+            WriteLine($"Working with: {textFile}");
+            WriteLine($"Does it exist? {File.Exists(textFile)}");
+            // create a new text file and write a line to it
+            StreamWriter textWriter = File.CreateText(textFile);
+            textWriter.WriteLine("Hello, C#!");
+            textWriter.Close();
+            WriteLine($"Does it exist? {File.Exists(textFile)}");
+            // copy the file, and overwrite if it already exists
+            File.Copy(sourceFileName: textFile, destFileName: backupFile, overwrite: true);
+            WriteLine($"Does {backupFile} exist? {File.Exists(backupFile)}");
+            Write("Confirm the files exist, and then press ENTER: ");
+            ReadLine();
+            // delete original text file (Dummy.txt)
+            File.Delete(textFile);
+            WriteLine($"Does it exist? {File.Exists(textFile)}");
+            // read from the text file backup
+            WriteLine($"Reading contents of {backupFile}");
+            StreamReader textReader = File.OpenText(backupFile);
+            WriteLine(textReader.ReadToEnd());
+            textReader.Close();
         }
     }
 }
