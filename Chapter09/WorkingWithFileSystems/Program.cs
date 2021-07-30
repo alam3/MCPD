@@ -94,6 +94,15 @@ namespace WorkingWithFileSystems {
             StreamReader textReader = File.OpenText(backupFile);
             WriteLine(textReader.ReadToEnd());
             textReader.Close();
+
+            // Managing paths when working with files - methods that extract info from a filepath
+            WriteLine($"Folder Name: {GetDirectoryName(textFile)}");
+            WriteLine($"File Name: {GetFileName(textFile)}");
+            WriteLine($"File Name without Extension: {GetFileNameWithoutExtension(textFile)}");
+            WriteLine($"File Extension: {GetExtension(textFile)}");
+            WriteLine($"Random File Name: {GetRandomFileName()}");
+            WriteLine($"Temporary File Name: {GetTempFileName()}");
+            
         }
     }
 }
