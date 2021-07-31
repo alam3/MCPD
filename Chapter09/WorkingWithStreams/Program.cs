@@ -33,28 +33,52 @@ namespace WorkingWithStreams {
 
         // Writing to XML Streams - write each callsign as an element in a single XML file
         static void WorkingWithXml() {
-            string xmlFile = Combine(CurrentDirectory, "streams.xml");
-            // create filestream
-            FileStream xmlFileStream = File.Create(xmlFile);
-            // wrap in an XML writer helper
-            XmlWriter xml = XmlWriter.Create(xmlFileStream, new XmlWriterSettings { Indent = true });
+            // Properly disposing of unmanaged resources
+            FileStream xmlFileStream = null;
+            XmlWriter xml = null;
+            try {
+                string xmlFile = Combine(CurrentDirectory, "streams.xml");
+                // create filestream
+                // FileStream xmlFileStream = File.Create(xmlFile); // old, before proper disposal
+                xmlFileStream = File.Create(xmlFile);
+                // wrap in an XML writer helper
+                //XmlWriter xml = XmlWriter.Create(xmlFileStream, new XmlWriterSettings { Indent = true }); // old, before proper disposal
+                xml = XmlWriter.Create(xmlFileStream, new XmlWriterSettings { Indent = true });
 
-            // write the XML declaration
-            xml.WriteStartDocument();
-            // write a root element
-            xml.WriteStartElement("callsigns");
-            // enumerate the strings writing each one to the stream, one at a time
-            foreach (string item in callsigns) {
-                xml.WriteElementString("callsign", item);
+                // write the XML declaration
+                xml.WriteStartDocument();
+                // write a root element
+                xml.WriteStartElement("callsigns");
+                // enumerate the strings writing each one to the stream, one at a time
+                foreach (string item in callsigns) {
+                    xml.WriteElementString("callsign", item);
+                }
+                // write the close root element
+                xml.WriteEndElement();
+                // close helper and stream
+                xml.Close();
+                xmlFileStream.Close();
+                // output contents of the file
+                WriteLine("{0} contains {1:N0} bytes.", xmlFile, new FileInfo(xmlFile).Length);
+                WriteLine(File.ReadAllText(xmlFile));
+            } catch(Exception ex) {
+                // if the path doesn't exist, the exception will be caught
+                WriteLine($"{ex.GetType()} says {ex.Message}");
+            } finally {
+                // Dispose of unmanaged resources once done using them
+                if (xml != null) {
+                    xml.Dispose();
+                    WriteLine("The XML writer's unmanaged resources have been disposed.");
+                }
+                if (xmlFileStream != null) {
+                    xmlFileStream.Dispose();
+                    WriteLine("The file stream's unmanaged resources have been disposed.");
+                }
             }
-            // write the close root element
-            xml.WriteEndElement();
-            // close helper and stream
-            xml.Close();
-            xmlFileStream.Close();
-            // output contents of the file
-            WriteLine("{0} contains {1:N0} bytes.", xmlFile, new FileInfo(xmlFile).Length);
-            WriteLine(File.ReadAllText(xmlFile));
+
+
+
+            
         }
     }
 }
