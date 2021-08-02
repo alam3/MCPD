@@ -4,6 +4,7 @@ using System.IO;
 using System.Xml;
 using static System.Environment;
 using static System.IO.Path;
+using System.IO.Compression; // For compressing streams
 
 namespace WorkingWithStreams {
     class Program {
@@ -11,6 +12,7 @@ namespace WorkingWithStreams {
             // Examples of Stream manipulation - writing text to a text stream
             // WorkWithText();
             WorkingWithXml();
+            WorkingWithCompression();
         }
 
         // Define an array of Viper pilot call signs
@@ -75,10 +77,46 @@ namespace WorkingWithStreams {
                     WriteLine("The file stream's unmanaged resources have been disposed.");
                 }
             }
-
-
-
-            
         }
+
+        // Stream compression; import System.IO.Compression.
+        static void WorkingWithCompression() {
+            // Output location
+            string gzipFilePath = Combine(CurrentDirectory, "streams.gzip");
+            FileStream gzipFile = File.Create(gzipFilePath);
+            // The FileStream
+            using (GZipStream compressor = new GZipStream(gzipFile, CompressionMode.Compress)) {
+                // The Writer
+                using (XmlWriter xmlGzip = XmlWriter.Create(compressor)) {
+                    xmlGzip.WriteStartDocument();
+                    xmlGzip.WriteStartElement("callsigns");
+                    foreach (string item in callsigns) {
+                        xmlGzip.WriteElementString("callsign", item);
+                    }
+                    // The call to WriteEndElement is not necessary because when XmlWriter disposes
+                    // it will automatically end any elements of any depth (from 'using() {}')
+                }
+            } // closes the underlying FileStream
+
+            // output all contents for the compressed file
+            WriteLine("{0} contains {1:N0} bytes.", gzipFilePath, new FileInfo(gzipFilePath).Length);
+            WriteLine($"The compressed contents: ");
+            WriteLine(File.ReadAllText(gzipFilePath));
+            // read a compressed file
+            WriteLine("Reading the compressed XML file:");
+            gzipFile = File.Open(gzipFilePath, FileMode.Open);
+            using (GZipStream decompressor = new GZipStream(gzipFile, CompressionMode.Decompress)) {
+                using (XmlReader reader = XmlReader.Create(decompressor)) {
+                    while (reader.Read()) { // read the next XML node
+                        // check if we are on an element node named callsign
+                        if ((reader.NodeType == XmlNodeType.Element) && (reader.Name == "callsign")) {
+                            reader.Read(); // move to the text inside element
+                            WriteLine($"{reader.Value}"); // Read the value of the text
+                        }
+                    }
+                }
+            }
+        }
+        
     }
 }
