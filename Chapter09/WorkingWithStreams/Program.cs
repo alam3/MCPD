@@ -12,7 +12,9 @@ namespace WorkingWithStreams {
             // Examples of Stream manipulation - writing text to a text stream
             // WorkWithText();
             WorkingWithXml();
-            WorkingWithCompression();
+            // WorkingWithCompression();
+            WorkingWithBrotliCompression();
+            WorkingWithBrotliCompression(false); // fallback to GZIP
         }
 
         // Define an array of Viper pilot call signs
@@ -117,6 +119,63 @@ namespace WorkingWithStreams {
                 }
             }
         }
-        
+
+
+        // Brotli Algorithm Compression
+        static void WorkingWithBrotliCompression(bool useBrotli = true) {
+            string fileExt = useBrotli ? "brotli" : "gzip"; // determines which compression to use
+            // Output location
+            string filePath = Combine(CurrentDirectory, $"streams.{fileExt}");
+            FileStream file = File.Create(filePath);
+            // The FileStream
+            
+            // Choose compression type
+            Stream compressor;
+            if (useBrotli) {
+                compressor = new BrotliStream(file, CompressionMode.Compress);
+            } else {
+                compressor = new GZipStream(file, CompressionMode.Compress);
+            }
+
+            using (compressor) {
+                // The Writer
+                using (XmlWriter xml = XmlWriter.Create(compressor)) {
+                    xml.WriteStartDocument();
+                    xml.WriteStartElement("callsigns");
+                    foreach (string item in callsigns) {
+                        xml.WriteElementString("callsign", item);
+                    }
+                    // The call to WriteEndElement is not necessary because when XmlWriter disposes
+                    // it will automatically end any elements of any depth (from 'using() {}')
+                }
+            } // closes the underlying FileStream
+
+            // output all contents for the compressed file
+            WriteLine("{0} contains {1:N0} bytes.", filePath, new FileInfo(filePath).Length);
+            WriteLine($"The compressed contents: ");
+            WriteLine(File.ReadAllText(filePath));
+            // read a compressed file
+            WriteLine("Reading the compressed XML file:");
+            file = File.Open(filePath, FileMode.Open);
+            // Selecting the decompressor
+            Stream decompressor;
+            if (useBrotli) {
+                decompressor = new BrotliStream(file, CompressionMode.Decompress);
+            } else {
+                decompressor = new GZipStream(file, CompressionMode.Decompress);
+            }
+
+            using (decompressor) {
+                using (XmlReader reader = XmlReader.Create(decompressor)) {
+                    while (reader.Read()) { // read the next XML node
+                        // check if we are on an element node named callsign
+                        if ((reader.NodeType == XmlNodeType.Element) && (reader.Name == "callsign")) {
+                            reader.Read(); // move to the text inside element
+                            WriteLine($"{reader.Value}"); // Read the value of the text
+                        }
+                    }
+                }
+            }
+        }
     }
 }
