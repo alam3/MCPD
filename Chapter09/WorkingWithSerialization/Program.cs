@@ -39,6 +39,17 @@ namespace WorkingWithSerialization {
             WriteLine();
             // Display the serialized object graph
             WriteLine(File.ReadAllText(path));
+
+
+            // Deserializing XML into a live object
+            using (FileStream xmlLoad = File.Open(path, FileMode.Open)) {
+                // deserialize and cast the object graph into a List of Person
+                var loadedPeople = (List<Person>) xs.Deserialize(xmlLoad); // the correct type is cast into the deserialized object
+                WriteLine("Reading from deserialized XML into live object:");
+                foreach (var item in loadedPeople) {
+                    WriteLine("{0} has {1} children.", item.LastName, item.Children.Count);
+                }
+            }
         }
     }
 }
