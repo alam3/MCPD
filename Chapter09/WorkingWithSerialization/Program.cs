@@ -50,6 +50,21 @@ namespace WorkingWithSerialization {
                     WriteLine("{0} has {1} children.", item.LastName, item.Children.Count);
                 }
             }
+
+
+            // Using JSON Serialization (from Newtonsoft JSON.NET package)
+            // create a file to write to
+            string jsonPath = Combine(CurrentDirectory, "people.json");
+            using (StreamWriter jsonStream = File.CreateText(jsonPath)) {
+                // create an object that will format as JSON
+                var jss = new Newtonsoft.Json.JsonSerializer();
+                // serialize the object graph into a string
+                jss.Serialize(jsonStream, people);
+            }
+            WriteLine();
+            WriteLine("Written {0:N0} bytes of a JSON to: {1}", new FileInfo(jsonPath).Length, jsonPath);
+            // display the serialized object graph
+            WriteLine(File.ReadAllText(jsonPath));
         }
     }
 }
