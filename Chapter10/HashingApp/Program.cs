@@ -38,6 +38,7 @@ namespace HashingApp {
                     WriteLine("Invalid username or password. Try again.");
                 }
             }
+
         }
     }
 }
