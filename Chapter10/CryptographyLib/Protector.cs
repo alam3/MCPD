@@ -143,6 +143,14 @@ namespace Packt.Shared {
         }
 
 
+        // Truly random numbers for cryptography
+        public static byte[] GetRandomKeyOrIV(int size) {
+            var r = RandomNumberGenerator.Create();
+            var data = new byte[size];
+            r.GetNonZeroBytes(data);
+            // data is an array now filled with cryptographically strong random bytes
+            return data;
+        }
 
     }
 }
