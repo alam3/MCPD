@@ -49,7 +49,7 @@ namespace Packt.Shared {
 
         // Hashing with SHA256
         private static Dictionary<string, User> Users = new Dictionary<string, User>();
-        public static User Register(string username, string password) {
+        public static User Register(string username, string password, string[] roles = null) {
             // generate a random salt
             var rng = RandomNumberGenerator.Create();
             var saltBytes = new byte[16];
@@ -59,7 +59,9 @@ namespace Packt.Shared {
             // generate the salted and hashed password
             var saltedhashedPassword = SaltAndHashPassword(password, saltText);
             var user = new User {
-                Name = username, Salt = saltText, SaltedHashedPassword = saltedhashedPassword
+                Name = username, Salt = saltText, 
+                SaltedHashedPassword = saltedhashedPassword,
+                Roles = roles // For user authorization
             };
             Users.Add(user.Name, user);
             return user;
@@ -150,6 +152,16 @@ namespace Packt.Shared {
             r.GetNonZeroBytes(data);
             // data is an array now filled with cryptographically strong random bytes
             return data;
+        }
+
+
+        // Authentication and Authorization
+        public static void LogIn(string username, string password) {
+            if (CheckPassword(username, password)) {
+                GenericIdentity identity = new GenericIdentity(username, "PacktAuth");
+                GenericPrincipal principal = new GenericPrincipal(identity, Users[username].Roles);
+                System.Threading.Thread.CurrentPrincipal = principal;
+            }
         }
 
     }
