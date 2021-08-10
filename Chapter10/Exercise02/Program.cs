@@ -19,9 +19,14 @@ namespace Exercise02 {
             WriteLine("Enter customer password: ");
             string customerPassword = ReadLine();
 
+            string fixedSalt = "goodMorningMfers";
+
+            string saltHashPassword = Protector.SaltAndHashPassword(customerPassword, fixedSalt);
+            string encryptedCard = Protector.Encrypt(customerCard, saltHashPassword);
+
             customers.Add(new Customer { Name = customerName,
-                                         CreditCard = customerCard,
-                                         Password = customerPassword });
+                                         CreditCard = encryptedCard,
+                                         Password = saltHashPassword });
 
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<Customer>));
             string savePath = ("customers.xml");

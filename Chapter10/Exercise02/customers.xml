@@ -2,7 +2,7 @@
 <ArrayOfCustomer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Customer>
     <Name>Bob Smith</Name>
-    <CreditCard>1234-5678-9012-3456</CreditCard>
-    <Password>Pa$$w0rd</Password>
+    <CreditCard>VbIqXYnOFBmYe1VFQCqhECbOFSWDXXqZ+0lnmEnWfDVvbt7ElubyC6h8zben4Jz5</CreditCard>
+    <Password>+GTXKrF2W1Ocrd2uNTM+wu2YYItogm449ahEAJq96ms=</Password>
   </Customer>
 </ArrayOfCustomer>
