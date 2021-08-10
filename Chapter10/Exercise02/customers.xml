@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<ArrayOfCustomer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Customer>
+    <Name>Bob Smith</Name>
+    <CreditCard>1234-5678-9012-3456</CreditCard>
+    <Password>Pa$$w0rd</Password>
+  </Customer>
+</ArrayOfCustomer>
