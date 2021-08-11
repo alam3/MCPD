@@ -6,6 +6,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="../CryptographyLib/CryptographyLib.csproj" />
+    <ProjectReference Include="../Exercise02/Exercise02.csproj" />
   </ItemGroup>
 
 </Project>

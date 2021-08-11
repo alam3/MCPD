@@ -10,6 +10,8 @@ using static System.IO.Path;
 namespace Exercise02 {
     class Program {
         static void Main(string[] args) {
+            string savePath = Combine(Directory.GetParent(CurrentDirectory).FullName, "customers.xml");
+            string fixedSalt = "goodMorningMfers";
             var customers = new List<Customer>();
 
             WriteLine("Enter customer name: ");
@@ -19,8 +21,6 @@ namespace Exercise02 {
             WriteLine("Enter customer password: ");
             string customerPassword = ReadLine();
 
-            string fixedSalt = "goodMorningMfers";
-
             string saltHashPassword = Protector.SaltAndHashPassword(customerPassword, fixedSalt);
             string encryptedCard = Protector.Encrypt(customerCard, saltHashPassword);
 
@@ -29,7 +29,6 @@ namespace Exercise02 {
                                          Password = saltHashPassword });
 
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<Customer>));
-            string savePath = Combine(Directory.GetParent(CurrentDirectory).FullName, "customers.xml");
             using (FileStream fileStream = File.Create(savePath)) {
                 xmlSerializer.Serialize(fileStream, customers);
             }
