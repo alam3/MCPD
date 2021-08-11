@@ -29,7 +29,7 @@ namespace Exercise02 {
                                          Password = saltHashPassword });
 
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(List<Customer>));
-            string savePath = ("customers.xml");
+            string savePath = Combine(Directory.GetParent(CurrentDirectory).FullName, "customers.xml");
             using (FileStream fileStream = File.Create(savePath)) {
                 xmlSerializer.Serialize(fileStream, customers);
             }
