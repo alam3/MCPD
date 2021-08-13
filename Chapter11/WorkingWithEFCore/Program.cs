@@ -3,17 +3,24 @@ using static System.Console;
 using Packt.Shared;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using Microsoft.Extensions.Logging; // Used for logging
+using Microsoft.EntityFrameworkCore.Infrastructure; // Used for logging
+using Microsoft.Extensions.DependencyInjection; // Used for logging
 
 namespace WorkingWithEFCore {
     class Program {
         static void Main(string[] args) {
-            // QueryingCategories();
-            FilteredIncludes();
+            QueryingCategories();
+            // FilteredIncludes();
             // QueryingProducts();
         }
 
         static void QueryingCategories() {
             using (var db = new Northwind()) {
+                // for logging
+                var loggerFactory = db.GetService<ILoggerFactory>();
+                loggerFactory.AddProvider(new ConsoleLoggerProvider());
+
                 WriteLine("Categories and how many products the have:");
                 // a query to get all categories and their related products
                 IQueryable<Category> cats = db.Categories
@@ -46,6 +53,10 @@ namespace WorkingWithEFCore {
 
         static void QueryingProducts() {
             using (var db = new Northwind()) {
+                // for logging
+                var loggerFactory = db.GetService<ILoggerFactory>();
+                loggerFactory.AddProvider(new ConsoleLoggerProvider());
+
                 WriteLine("Products that cost more than a price, highest at the top.");
                 string input;
                 decimal price;
