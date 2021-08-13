@@ -8,7 +8,8 @@ namespace WorkingWithEFCore {
     class Program {
         static void Main(string[] args) {
             // QueryingCategories();
-            FilteredIncludes();
+            // FilteredIncludes();
+            QueryingProducts();
         }
 
         static void QueryingCategories() {
@@ -39,6 +40,25 @@ namespace WorkingWithEFCore {
             }
         }
 
+        static void QueryingProducts() {
+            using (var db = new Northwind()) {
+                WriteLine("Products that cost more than a price, highest at the top.");
+                string input;
+                decimal price;
+                do {
+                    WriteLine("Enter a product price: ");
+                    input = ReadLine();
+                } while (!decimal.TryParse(input, out price));
+
+                IQueryable<Product> prods = db.Products
+                    .Where(p => p.Cost > price)
+                    .OrderByDescending(p => p.Cost);
+
+                foreach (Product p in prods) {
+                    WriteLine($"{p.ProductID}: {p.ProductName} costs {p.Cost:C2} and has {p.Stock} in stock");
+                }
+            }
+        }
 
     }
 }
