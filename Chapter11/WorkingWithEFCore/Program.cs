@@ -8,8 +8,8 @@ namespace WorkingWithEFCore {
     class Program {
         static void Main(string[] args) {
             // QueryingCategories();
-            // FilteredIncludes();
-            QueryingProducts();
+            FilteredIncludes();
+            // QueryingProducts();
         }
 
         static void QueryingCategories() {
@@ -31,6 +31,10 @@ namespace WorkingWithEFCore {
                 int stock = int.Parse(UnitsInStock);
                 IQueryable<Category> cats = db.Categories
                     .Include(c => c.Products.Where(p => p.Stock >= stock));
+
+                // Output generated SQL Statements
+                WriteLine($"ToQueryString: {cats.ToQueryString()}");
+
                 foreach (Category c in cats) {
                     WriteLine($"{c.CategoryName} has {c.Products.Count} products with a minimum of {stock} units in stock.");
                     foreach (Product p in c.Products) {
