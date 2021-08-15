@@ -36,14 +36,18 @@ namespace Packt.Shared {
 
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception,
             Func<TState, Exception, string> formatter) {
-                // log the level and event identifier
-                if (state != null) {
-                    Write($", State: {state}");
+                if (eventId.Id == 20100) {
+                    // log the level and event identifier
+                    Write($"Level: {logLevel}, Event ID: {eventId.Id}, Event: {eventId.Name}");
+                    // only output the state or exception if it exists
+                    if (state != null) {
+                        Write($", State: {state}");
+                    }
+                    if (exception != null) {
+                        Write($", Exception: {exception.Message}");
+                    }
+                    WriteLine();
                 }
-                if (exception != null) {
-                    Write($", Exception: {exception.Message}");
-                }
-                WriteLine();
             }
 
     }

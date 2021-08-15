@@ -10,9 +10,10 @@ using Microsoft.Extensions.DependencyInjection; // Used for logging
 namespace WorkingWithEFCore {
     class Program {
         static void Main(string[] args) {
-            QueryingCategories();
+            // QueryingCategories();
             // FilteredIncludes();
             // QueryingProducts();
+            QueryingWithLike();
         }
 
         static void QueryingCategories() {
@@ -71,6 +72,20 @@ namespace WorkingWithEFCore {
 
                 foreach (Product p in prods) {
                     WriteLine($"{p.ProductID}: {p.ProductName} costs {p.Cost:C2} and has {p.Stock} in stock");
+                }
+            }
+        }
+
+        static void QueryingWithLike() {
+            using (var db = new Northwind()) {
+                var loggerFactory = db.GetService<ILoggerFactory>();
+                loggerFactory.AddProvider(new ConsoleLoggerProvider());
+                Write("Enter part of a product name: ");
+                string input = ReadLine();
+                IQueryable<Product> prods = db.Products
+                    .Where(p => EF.Functions.Like(p.ProductName, $"%{input}%"));
+                foreach (Product p in prods) {
+                    WriteLine($"{p.ProductName} has {p.Stock} units in stock. Discontinued? {p.Discontinued}");
                 }
             }
         }
