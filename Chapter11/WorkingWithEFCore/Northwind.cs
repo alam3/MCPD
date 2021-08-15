@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Proxies; // Import namespace to use Lazy Loading
 
 namespace Packt.Shared {
     public class Northwind : DbContext {
@@ -12,7 +13,9 @@ namespace Packt.Shared {
         // Use OnConfiguring to set the database connection string
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) {
             string path = System.IO.Path.Combine(System.Environment.CurrentDirectory, "Northwind.db");
-            optionsBuilder.UseSqlite($"Filename={path}");
+            // optionsBuilder.UseSqlite($"Filename={path}");
+            optionsBuilder.UseLazyLoadingProxies().UseSqlite($"Filename={path}"); // Enable use of Lazy Loading
+            // ^ Notice how running the program results on more round trip queries against the database vs. Eager Loading
         }
 
         // Required overridden method for writing Fluent API statements

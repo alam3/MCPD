@@ -10,10 +10,10 @@ using Microsoft.Extensions.DependencyInjection; // Used for logging
 namespace WorkingWithEFCore {
     class Program {
         static void Main(string[] args) {
-            // QueryingCategories();
+            QueryingCategories();
             // FilteredIncludes();
             // QueryingProducts();
-            QueryingWithLike();
+            // QueryingWithLike();
         }
 
         static void QueryingCategories() {
@@ -24,8 +24,9 @@ namespace WorkingWithEFCore {
 
                 WriteLine("Categories and how many products the have:");
                 // a query to get all categories and their related products
-                IQueryable<Category> cats = db.Categories
-                    .Include(c => c.Products);
+                IQueryable<Category> cats = db.Categories;
+                    // .Include(c => c.Products); 
+                    // ^ Commented out to remove eager loading; notice all results are 0, as only the Categories are loaded
                 foreach (Category c in cats) {
                     WriteLine($"{c.CategoryName} has {c.Products.Count} products.");
                 }
