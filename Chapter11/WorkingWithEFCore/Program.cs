@@ -24,10 +24,40 @@ namespace WorkingWithEFCore {
 
                 WriteLine("Categories and how many products the have:");
                 // a query to get all categories and their related products
-                IQueryable<Category> cats = db.Categories;
-                    // .Include(c => c.Products); 
+                // IQueryable<Category> cats = db.Categories; // "Disable" Lazy Loading
+                    // .Include(c => c.Products);
                     // ^ Commented out to remove eager loading; notice all results are 0, as only the Categories are loaded
+
+                // For Explicit Loading, where you are in control of what related data is loaded and when
+                // Prompt user whether to Eager Load or Explicit Load
+                IQueryable<Category> cats;
+                db.ChangeTracker.LazyLoadingEnabled = false;
+                Write("Enable eager loading? (Y/N): ");
+                bool eagerLoading = (ReadKey().Key == ConsoleKey.Y);
+                bool explicitLoading = false;
+                WriteLine();
+                if (eagerLoading) {
+                    cats = db.Categories.Include(c => c.Products);
+                } else {
+                    cats = db.Categories;
+                    Write("Enable explicit loading? (Y/N): ");
+                    explicitLoading = (ReadKey().Key == ConsoleKey.Y);
+                    WriteLine();
+                }
+
                 foreach (Category c in cats) {
+                    // Check whether explicit loading is enabled
+                    // If yes, prompt whether user wants to explicitly load each individual category
+                    if (explicitLoading) {
+                        Write($"Explicitly load products for {c.CategoryName}? (Y/N): ");
+                        ConsoleKeyInfo key = ReadKey();
+                        WriteLine();
+                        if (key.Key == ConsoleKey.Y) {
+                            var products = db.Entry(c).Collection(c2 => c2.Products);
+                            if (!products.IsLoaded) products.Load();
+                        }
+                    }
+
                     WriteLine($"{c.CategoryName} has {c.Products.Count} products.");
                 }
             }
