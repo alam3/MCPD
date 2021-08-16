@@ -6,6 +6,7 @@ using System.Linq;
 using Microsoft.Extensions.Logging; // Used for logging
 using Microsoft.EntityFrameworkCore.Infrastructure; // Used for logging
 using Microsoft.Extensions.DependencyInjection; // Used for logging
+using System.Collections.Generic; // Used when deleting entities
 
 namespace WorkingWithEFCore {
     class Program {
@@ -22,9 +23,14 @@ namespace WorkingWithEFCore {
             // ListProducts();
 
             // Updating existing entities
-            if (IncreaseProductPrice("Bob", 20M)) {
-                WriteLine("Update product price successful.");
-            }
+            // if (IncreaseProductPrice("Bob", 20M)) {
+            //     WriteLine("Update product price successful.");
+            // }
+            // ListProducts();
+
+            // Deleting existing entities
+            int deleted = DeleteProducts("Bob");
+            WriteLine($"{deleted} product(s) were deleted.");
             ListProducts();
         }
 
@@ -169,6 +175,16 @@ namespace WorkingWithEFCore {
                 updateProduct.Cost += amount;
                 int affected = db.SaveChanges();
                 return (affected == 1);
+            }
+        }
+
+        // Deleting entities
+        static int DeleteProducts(string name) {
+            using (var db = new Northwind()) {
+                IEnumerable<Product> products = db.Products.Where(p => p.ProductName.StartsWith(name));
+                db.Products.RemoveRange(products);
+                int affected = db.SaveChanges();
+                return (affected);
             }
         }
 
