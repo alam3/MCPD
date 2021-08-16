@@ -15,9 +15,15 @@ namespace WorkingWithEFCore {
             // QueryingProducts();
             // QueryingWithLike();
 
-            // Manipulating data with EF Core
-            if (AddProduct(6, "Bob's Burgers", 500M)) {
-                WriteLine("Add product successful.");
+            // Manipulating data with EF Core - Inserting entities
+            // if (AddProduct(6, "Bob's Burgers", 500M)) {
+            //     WriteLine("Add product successful.");
+            // }
+            // ListProducts();
+
+            // Updating existing entities
+            if (IncreaseProductPrice("Bob", 20M)) {
+                WriteLine("Update product price successful.");
             }
             ListProducts();
         }
@@ -152,6 +158,17 @@ namespace WorkingWithEFCore {
                     WriteLine("{0:000} {1,-35} {2,8:$#,##0.00} {3,5} {4}",
                         item.ProductID, item.ProductName, item.Cost, item.Stock, item.Discontinued);
                 }
+            }
+        }
+
+        // Updating existing entities
+        static bool IncreaseProductPrice(string name, decimal amount) {
+            using (var db = new Northwind()) {
+                // get first product whose name starts with name
+                Product updateProduct = db.Products.First(p => p.ProductName.StartsWith(name));
+                updateProduct.Cost += amount;
+                int affected = db.SaveChanges();
+                return (affected == 1);
             }
         }
 
