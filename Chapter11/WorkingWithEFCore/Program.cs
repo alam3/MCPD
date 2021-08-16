@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging; // Used for logging
 using Microsoft.EntityFrameworkCore.Infrastructure; // Used for logging
 using Microsoft.Extensions.DependencyInjection; // Used for logging
 using System.Collections.Generic; // Used when deleting entities
+using Microsoft.EntityFrameworkCore.Storage; // Used for explicit transactions (IDbContextTransaction)
 
 namespace WorkingWithEFCore {
     class Program {
@@ -185,12 +186,27 @@ namespace WorkingWithEFCore {
         }
 
         // Deleting entities
+        // static int DeleteProducts(string name) {
+        //     using (var db = new Northwind()) {
+        //         IEnumerable<Product> products = db.Products.Where(p => p.ProductName.StartsWith(name));
+        //         db.Products.RemoveRange(products);
+        //         int affected = db.SaveChanges();
+        //         return (affected);
+        //     }
+        // }
+
+        // Deleting entities thru explicit transaction
         static int DeleteProducts(string name) {
             using (var db = new Northwind()) {
-                IEnumerable<Product> products = db.Products.Where(p => p.ProductName.StartsWith(name));
-                db.Products.RemoveRange(products);
-                int affected = db.SaveChanges();
-                return (affected);
+                // Starts an explicit transaction and outputs its isolation level
+                using (IDbContextTransaction t = db.Database.BeginTransaction()) {
+                    WriteLine("Transaction isolation level: {0}", t.GetDbTransaction().IsolationLevel);
+                    IEnumerable<Product> products = db.Products.Where(p => p.ProductName.StartsWith(name));
+                    db.Products.RemoveRange(products);
+                    int affected = db.SaveChanges();
+                    t.Commit();
+                    return (affected);
+                }
             }
         }
 
