@@ -10,10 +10,16 @@ using Microsoft.Extensions.DependencyInjection; // Used for logging
 namespace WorkingWithEFCore {
     class Program {
         static void Main(string[] args) {
-            QueryingCategories();
+            // QueryingCategories();
             // FilteredIncludes();
             // QueryingProducts();
             // QueryingWithLike();
+
+            // Manipulating data with EF Core
+            if (AddProduct(6, "Bob's Burgers", 500M)) {
+                WriteLine("Add product successful.");
+            }
+            ListProducts();
         }
 
         static void QueryingCategories() {
@@ -117,6 +123,34 @@ namespace WorkingWithEFCore {
                     .Where(p => EF.Functions.Like(p.ProductName, $"%{input}%"));
                 foreach (Product p in prods) {
                     WriteLine($"{p.ProductName} has {p.Stock} units in stock. Discontinued? {p.Discontinued}");
+                }
+            }
+        }
+
+        // Manipulating data with EF Core - Inserting entities
+        static bool AddProduct(int categoryID, string productName, decimal? price) {
+            using (var db = new Northwind()) {
+                var newProduct = new Product {
+                    CategoryID = categoryID,
+                    ProductName = productName,
+                    Cost = price
+                };
+
+                // mark product as added in change tracking
+                db.Products.Add(newProduct);
+                // save tracked change to databse
+                int affected = db.SaveChanges();
+                return (affected == 1);
+            }
+        }
+
+        static void ListProducts() {
+            using (var db = new Northwind()) {
+                WriteLine("{0,-3} {1,-35} {2,8} {3,5} {4}",
+                    "ID", "Product Name", "Cost", "Stock", "Disc.");
+                foreach (var item in db.Products.OrderByDescending(p => p.Cost)) {
+                    WriteLine("{0:000} {1,-35} {2,8:$#,##0.00} {3,5} {4}",
+                        item.ProductID, item.ProductName, item.Cost, item.Stock, item.Discontinued);
                 }
             }
         }
