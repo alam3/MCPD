@@ -17,7 +17,13 @@ namespace WorkingWithEFCore {
             // QueryingWithLike();
 
             // Manipulating data with EF Core - Inserting entities
-            // if (AddProduct(6, "Bob's Burgers", 500M)) {
+            // if (AddProduct(6, "Bob's Burgers", 15M)) {
+            //     WriteLine("Add product successful.");
+            // }
+            // if (AddProduct(6, "Bob's Jammies", 20M)) {
+            //     WriteLine("Add product successful.");
+            // }
+            // if (AddProduct(6, "Bob's Hot Dogs", 1.5M)) {
             //     WriteLine("Add product successful.");
             // }
             // ListProducts();
