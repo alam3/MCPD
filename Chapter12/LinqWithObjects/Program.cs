@@ -14,7 +14,9 @@ namespace LinqWithObjects {
             // var query = names.Where(NameLongerThanFour); // Simplified where the explicit instantiation of the delegate is removed
             var query = names
                 .Where(name => name.Length > 4) // Simplified further using Lambda Expressions, where a separate method is not required
-                .OrderBy(name => name.Length); // Sorting using OrderBy
+                .OrderBy(name => name.Length) // Sorting using OrderBy
+                // .OrderByDescending(name => name.Length); // Sorting using OrderByDescending
+                .ThenBy(name => name); // Using ThenBy to sort by additional value
             
             foreach (string item in query) {
                 WriteLine(item);
