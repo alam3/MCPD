@@ -8,7 +8,8 @@ namespace LinqWithEFCore {
     class Program {
         static void Main(string[] args) {
             // FilterAndSort();
-            JoinCategoriesAndProducts();
+            // JoinCategoriesAndProducts();
+            GroupJoinCategoriesAndProducts();
         }
 
         static void FilterAndSort() {
@@ -50,6 +51,28 @@ namespace LinqWithEFCore {
                         arg0: item.ProductID,
                         arg1: item.ProductName,
                         arg2: item.CategoryName);
+                }
+            }
+        }
+
+        static void GroupJoinCategoriesAndProducts() {
+            using (var db = new Northwind()) {
+                // group all products by their category to return 8 matches
+                var queryGroup = db.Categories.AsEnumerable().GroupJoin(
+                    inner: db.Products,
+                    outerKeySelector: category => category.CategoryID,
+                    innerKeySelector: product => product.CategoryID,
+                    resultSelector: (c, matchingProducts) => new {
+                        c.CategoryName,
+                        Products = matchingProducts.OrderBy(p => p.ProductName) });
+                
+                foreach (var item in queryGroup) {
+                    WriteLine("{0} has {1} products.",
+                        arg0: item.CategoryName,
+                        arg1: item.Products.Count());
+                    foreach (var product in item.Products) {
+                        WriteLine($" {product.ProductName}");
+                    }
                 }
             }
         }
