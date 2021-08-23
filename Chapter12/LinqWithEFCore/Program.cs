@@ -3,6 +3,7 @@ using static System.Console;
 using Packt.Shared;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Xml.Linq; // Generating XML using LINQ to XML
 
 namespace LinqWithEFCore {
     class Program {
@@ -11,7 +12,8 @@ namespace LinqWithEFCore {
             // JoinCategoriesAndProducts();
             // GroupJoinCategoriesAndProducts();
             // AggregateProducts();
-            CustomExtensionMethods();
+            // CustomExtensionMethods();
+            OutputProductsAsXml();
         }
 
         // static void FilterAndSort() { // Original method
@@ -128,6 +130,19 @@ namespace LinqWithEFCore {
 
                 WriteLine("Mode units in stock: {0:N0}", db.Products.Mode(p => p.UnitsInStock));
                 WriteLine("Mode unit price: {0:$#,##0.00}", db.Products.Mode(p => p.UnitPrice));
+            }
+        }
+
+        // Generating XML using LINQ to XML
+        static void OutputProductsAsXml() {
+            using (var db = new Northwind()) {
+                var productsForXml = db.Products.ToArray();
+                var xml = new XElement("products", from p in productsForXml
+                                                   select new XElement("product",
+                                                     new XAttribute("id", p.ProductID),
+                                                     new XAttribute("price", p.UnitPrice),
+                                                     new XElement("name", p.ProductName)));
+                WriteLine(xml.ToString());
             }
         }
 
