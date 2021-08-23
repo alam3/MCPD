@@ -7,10 +7,11 @@ using System.Linq;
 namespace LinqWithEFCore {
     class Program {
         static void Main(string[] args) {
-            FilterAndSort();
+            // FilterAndSort();
             // JoinCategoriesAndProducts();
             // GroupJoinCategoriesAndProducts();
             // AggregateProducts();
+            CustomExtensionMethods();
         }
 
         // static void FilterAndSort() { // Original method
@@ -113,6 +114,20 @@ namespace LinqWithEFCore {
                 WriteLine("{0,-25} {1,10:$#.##0.00}", "Average unit price:", db.Products.Average(p => p.UnitPrice));
                 WriteLine("{0,-25} {1,10:$#.##0.00}", "Value of units in stock:", db.Products.AsEnumerable()
                                                                                              .Sum(p => p.UnitPrice * p.UnitsInStock));
+            }
+        }
+
+        // Using the methods in the custom LINQ extension
+        static void CustomExtensionMethods() {
+            using(var db = new Northwind()) {
+                WriteLine("Mean units in stock: {0:N0}", db.Products.Average(p => p.UnitsInStock));
+                WriteLine("Mean unit price: {0:$#,##0.00}", db.Products.Average(p => p.UnitPrice));
+
+                WriteLine("Median units in stock: {0:N0}", db.Products.Median(p => p.UnitsInStock));
+                WriteLine("Median unit price: {0:$#,##0.00}", db.Products.Median(p => p.UnitPrice));
+
+                WriteLine("Mode units in stock: {0:N0}", db.Products.Mode(p => p.UnitsInStock));
+                WriteLine("Mode unit price: {0:$#,##0.00}", db.Products.Mode(p => p.UnitPrice));
             }
         }
 
