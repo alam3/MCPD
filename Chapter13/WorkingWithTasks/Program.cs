@@ -9,14 +9,24 @@ namespace WorkingWithTasks {
         static void Main(string[] args) {
 
             // Running the methods synchronously
+            /*
             var timer = Stopwatch.StartNew();
             WriteLine("Running methods synchronously on one thread.");
             MethodA();
             MethodB();
             MethodC();
             WriteLine($"{timer.ElapsedMilliseconds:#,##0}ms elapsed.");
+            */
 
-            
+            // Running the methods in Asynchronously in separate tasks
+            var timer = Stopwatch.StartNew();
+            WriteLine("Running methods asynchronously on multiple threads.");
+            // Three different ways to assign and start new Tasks:
+            Task taskA = new Task(MethodA);
+            taskA.Start();
+            Task taskB = Task.Factory.StartNew(MethodB);
+            Task taskC = Task.Run(new Action(MethodC));
+            WriteLine($"{timer.ElapsedMilliseconds:#,##0}ms elapsed.");
         }
 
         // Methods running at different speeds to show how tasks can be run simultaneously.
