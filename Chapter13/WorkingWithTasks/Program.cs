@@ -21,6 +21,8 @@ namespace WorkingWithTasks {
             // Running the methods in Asynchronously in separate tasks
             var timer = Stopwatch.StartNew();
             WriteLine("Running methods asynchronously on multiple threads.");
+
+            /*
             // Three different ways to assign and start new Tasks:
             Task taskA = new Task(MethodA);
             taskA.Start();
@@ -30,6 +32,14 @@ namespace WorkingWithTasks {
             // Waiting for tasks
             Task[] tasks = { taskA, taskB, taskC };
             Task.WaitAll(tasks);
+            */
+
+            // Continuation Tasks
+            WriteLine("Passing the result of one task as an input into another.");
+            var taskCallWebServiceAndThenStoredProcedure = Task.Factory.StartNew(CallWebService)
+                                                               .ContinueWith(previousTask =>
+                                                                   CallStoredProcedure(previousTask.Result));
+            WriteLine($"Result: {taskCallWebServiceAndThenStoredProcedure.Result}");
 
             WriteLine($"{timer.ElapsedMilliseconds:#,##0}ms elapsed.");
         }
@@ -47,6 +57,22 @@ namespace WorkingWithTasks {
             WriteLine("Starting Method C...");
             Thread.Sleep(1000); // simulate 1 seconds of work
             WriteLine("Finished Method C.");
+        }
+
+        // Continuation Tasks: types of tasks that allow for waiting for a
+        // task dependency before initiating the dependent task
+        // Simulate calling a web service that returns information needed to run a subsequent task
+        static decimal CallWebService() {
+            WriteLine("Starting call to web service...");
+            Thread.Sleep((new Random()).Next(2000, 4000));
+            WriteLine("Finished call to web service.");
+            return 89.99M;
+        }
+        static string CallStoredProcedure(decimal amount) {
+            WriteLine("Starting call to stored procedure...");
+            Thread.Sleep((new Random()).Next(2000, 4000));
+            WriteLine("Finished call to stored procedure.");
+            return $"12 products cost more than {amount:C}.";
         }
     }
 }
