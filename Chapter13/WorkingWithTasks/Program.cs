@@ -26,6 +26,11 @@ namespace WorkingWithTasks {
             taskA.Start();
             Task taskB = Task.Factory.StartNew(MethodB);
             Task taskC = Task.Run(new Action(MethodC));
+
+            // Waiting for tasks
+            Task[] tasks = { taskA, taskB, taskC };
+            Task.WaitAll(tasks);
+
             WriteLine($"{timer.ElapsedMilliseconds:#,##0}ms elapsed.");
         }
 
