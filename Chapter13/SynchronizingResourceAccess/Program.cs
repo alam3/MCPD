@@ -23,19 +23,26 @@ namespace SynchronizingResourceAccess {
         static Random r = new Random();
         static string Message; // The shared resource
 
+        // Instantiate an object to be a "conch" (from Lord of The Flies) determining which thread has access
+        static object conch = new object();
+
         static void MethodA() {
-            for (int i = 0; i < 5; i++) {
-                Thread.Sleep(r.Next(2000));
-                Message += "A";
-                Write(".");
+            lock (conch) { // locks access to only this thread
+                for (int i = 0; i < 5; i++) {
+                    Thread.Sleep(r.Next(2000));
+                    Message += "A";
+                    Write(".");
+                }
             }
         }
         
         static void MethodB() {
-            for (int i = 0; i < 5; i++) {
-                Thread.Sleep(r.Next(2000));
-                Message += "B";
-                Write(".");
+            lock (conch) {
+                for (int i = 0; i < 5; i++) {
+                    Thread.Sleep(r.Next(2000));
+                    Message += "B";
+                    Write(".");
+                }
             }
         }
 
