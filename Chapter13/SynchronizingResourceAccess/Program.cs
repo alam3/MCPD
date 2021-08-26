@@ -27,23 +27,41 @@ namespace SynchronizingResourceAccess {
         static object conch = new object();
 
         static void MethodA() {
-            lock (conch) { // locks access to only this thread
-                for (int i = 0; i < 5; i++) {
-                    Thread.Sleep(r.Next(2000));
-                    Message += "A";
-                    Write(".");
+
+            // Wrapping the conch in a try-finally to avoid deadlocks by trying to enter the conch with a timeout
+            try {
+                if (Monitor.TryEnter(conch, TimeSpan.FromSeconds(15))) {
+                    for (int i = 0; i < 5; i++) {
+                        Thread.Sleep(r.Next(2000));
+                        Message += "A";
+                        Write(".");
+                    }
+                } else {
+                    WriteLine("Method A failed to enter a monitor lock.");
                 }
+            } finally {
+                Monitor.Exit(conch);
             }
+
         }
         
         static void MethodB() {
-            lock (conch) {
-                for (int i = 0; i < 5; i++) {
-                    Thread.Sleep(r.Next(2000));
-                    Message += "B";
-                    Write(".");
+
+            // Wrapping the conch in a try-finally to avoid deadlocks by trying to enter the conch with a timeout
+            try {
+                if (Monitor.TryEnter(conch, TimeSpan.FromSeconds(15))) {
+                    for (int i = 0; i < 5; i++) {
+                        Thread.Sleep(r.Next(2000));
+                        Message += "B";
+                        Write(".");
+                    }
+                } else {
+                    WriteLine("Method B failed to enter a monitor lock.");
                 }
+            } finally {
+                Monitor.Exit(conch);
             }
+
         }
 
     }
