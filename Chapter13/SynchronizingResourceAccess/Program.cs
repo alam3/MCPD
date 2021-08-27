@@ -16,6 +16,7 @@ namespace SynchronizingResourceAccess {
             WriteLine();
             WriteLine($"Results: {Message}.");
             WriteLine($"{watch.ElapsedMilliseconds:#,##0} elapsed milliseconds");
+            WriteLine($"{Counter} string modifications.");
         }
 
         // Synchronizing access to shared resources by using flags
@@ -25,6 +26,7 @@ namespace SynchronizingResourceAccess {
 
         // Instantiate an object to be a "conch" (from Lord of The Flies) determining which thread has access
         static object conch = new object();
+        static int Counter; // another shared resource - used for atomic operations example
 
         static void MethodA() {
 
@@ -34,6 +36,7 @@ namespace SynchronizingResourceAccess {
                     for (int i = 0; i < 5; i++) {
                         Thread.Sleep(r.Next(2000));
                         Message += "A";
+                        Interlocked.Increment(ref Counter); // for atomic operations example
                         Write(".");
                     }
                 } else {
@@ -53,6 +56,7 @@ namespace SynchronizingResourceAccess {
                     for (int i = 0; i < 5; i++) {
                         Thread.Sleep(r.Next(2000));
                         Message += "B";
+                        Interlocked.Increment(ref Counter); // for atomic operations example
                         Write(".");
                     }
                 } else {
