@@ -41,9 +41,9 @@ namespace Packt.Shared
             {
                 entity.HasKey(x => new { x.OrderID, x.ProductID });
                 entity.HasOne(d => d.Order)
-                .WithMany(p => p.OrderDetails)
-                .HasForeignKey(x => x.OrderID)
-                .OnDelete(DeleteBehavior.ClientSetNull);
+                    .WithMany(p => p.OrderDetails)
+                    .HasForeignKey(x => x.OrderID)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
                 entity.HasOne(d => d.Product)
                             .WithMany(p => p.OrderDetails)
                             .HasForeignKey(x => x.ProductID)
