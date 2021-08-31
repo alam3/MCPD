@@ -27,9 +27,14 @@ namespace NorthwindWeb
             app.UseRouting();
             app.UseHttpsRedirection();
 
+            // Tell the webserver to use and find the static files to present when the website is accessed.
+            app.UseDefaultFiles(); // index.html, default.html, and so on
+            app.UseStaticFiles();
+
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/", async context =>
+                // endpoints.MapGet("/", async context =>
+                endpoints.MapGet("/hello", async context => // Tell the webserver to only do this on the /hello endpoint
                 {
                     await context.Response.WriteAsync("Hello World!");
                 });
