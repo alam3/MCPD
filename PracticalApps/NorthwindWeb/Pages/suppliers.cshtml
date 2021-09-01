@@ -1,0 +1,16 @@
+@page
+@model NorthwindWeb.Pages.SuppliersModel // sets the Razor Page model
+<div class="row">
+    <h1 class="display-2">Suppliers</h1>
+    <table class="table">
+        <thead class="thead-inverse">
+            <tr><th>Company Name</th></tr>
+        </thead>
+        <tbody>
+            @foreach (string name in Model.Suppliers) // using C#, gets the value in the array defined in suppliers.cshtml.cs
+            {
+                <tr><td>@name</td></tr>
+            }
+        </tbody>
+    </table>
+</div>
