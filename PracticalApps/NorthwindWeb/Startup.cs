@@ -7,6 +7,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+// For using EntityFrameworkCore with ASP.NET
+using System.IO;
+using Microsoft.EntityFrameworkCore;
+using Packt.Shared;
 
 namespace NorthwindWeb
 {
@@ -17,6 +21,11 @@ namespace NorthwindWeb
             // Enable use of Razor Pages, which are found in the "Pages" directory with ".cshtml" extension
             // Even tho use of default static files is defined, the webserver will pick up Razor Pages first
             services.AddRazorPages();
+            
+            // For using EntityFrameworkCore with ASP.NET
+            // Registers the Northwind database context class to use SQLite as its db provider
+            string databasePath = Path.Combine("..", "Northwind.db");
+            services.AddDbContext<Northwind>(options => options.UseSqlite($"Data source={databasePath}"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
