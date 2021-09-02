@@ -3,6 +3,8 @@ using System.Collections.Generic;
 // For using EntityFrameworkCore with ASP.NET
 using System.Linq;
 using Packt.Shared;
+// For manipulating data in Razor Pages with EntityFrameworkCore
+using Microsoft.AspNetCore.Mvc;
 
 
 // For Code-behind with Razor defining the suppliers page for the Northwind Website
@@ -25,6 +27,19 @@ namespace NorthwindWeb.Pages {
             // For using EntityFrameworkCore with ASP.NET
             // Getting supplier from the Northwind database
             Suppliers = db.Suppliers.Select(s => s.CompanyName);
+        }
+
+        // For manipulating data in Razor Pages with EntityFrameworkCore
+        // Property storing a supplier and method to add it if the model is valid
+        [BindProperty] // helps connect HTML elements to properties in the Supplier class.
+        public Supplier Supplier { get; set; }
+        public IActionResult OnPost() {
+            if (ModelState.IsValid) {
+                db.Suppliers.Add(Supplier);
+                db.SaveChanges();
+                return RedirectToPage("/suppliers");
+            }
+            return Page();
         }
     }
 }
