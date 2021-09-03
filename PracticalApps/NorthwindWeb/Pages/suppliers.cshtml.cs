@@ -5,6 +5,7 @@ using System.Linq;
 using Packt.Shared;
 // For manipulating data in Razor Pages with EntityFrameworkCore
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 
 // For Code-behind with Razor defining the suppliers page for the Northwind Website
@@ -17,9 +18,10 @@ namespace NorthwindWeb.Pages {
             db = injectedContext;
         }
 
-        public IList<string> SuppliersName { get; set; }
-        public IList<string> SuppliersCountry { get; set; }
-        public IList<string> SuppliersPhone { get; set; }
+        // public IList<string> SuppliersName { get; set; }
+        public IList<Supplier> Suppliers { get; set; } // List of Supplier-type items
+
+
         public void OnGet() {
             ViewData["Title"] = "Northwind Web Site - Suppliers";
             // Suppliers = new[] { // Commented out to not hardcode Suppliers data
@@ -28,9 +30,10 @@ namespace NorthwindWeb.Pages {
 
             // For using EntityFrameworkCore with ASP.NET
             // Getting supplier from the Northwind database
-            SuppliersName = db.Suppliers.Select(s => s.CompanyName).ToList();
-            SuppliersCountry = db.Suppliers.Select(s => s.Country).ToList();
-            SuppliersPhone = db.Suppliers.Select(s => s.Phone).ToList();
+            // SuppliersName = db.Suppliers.Select(s => s.CompanyName).ToList();
+
+            Suppliers = db.Suppliers.ToList(); // Gets the entire "Supplier" type object
+            // TODO: What data type to use to store a projection of the query?
         }
 
         // For manipulating data in Razor Pages with EntityFrameworkCore
