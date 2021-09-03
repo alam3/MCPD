@@ -17,7 +17,9 @@ namespace NorthwindWeb.Pages {
             db = injectedContext;
         }
 
-        public IEnumerable<string> Suppliers { get; set; }
+        public IList<string> SuppliersName { get; set; }
+        public IList<string> SuppliersCountry { get; set; }
+        public IList<string> SuppliersPhone { get; set; }
         public void OnGet() {
             ViewData["Title"] = "Northwind Web Site - Suppliers";
             // Suppliers = new[] { // Commented out to not hardcode Suppliers data
@@ -26,7 +28,9 @@ namespace NorthwindWeb.Pages {
 
             // For using EntityFrameworkCore with ASP.NET
             // Getting supplier from the Northwind database
-            Suppliers = db.Suppliers.Select(s => s.CompanyName);
+            SuppliersName = db.Suppliers.Select(s => s.CompanyName).ToList();
+            SuppliersCountry = db.Suppliers.Select(s => s.Country).ToList();
+            SuppliersPhone = db.Suppliers.Select(s => s.Phone).ToList();
         }
 
         // For manipulating data in Razor Pages with EntityFrameworkCore

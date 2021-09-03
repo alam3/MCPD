@@ -10,9 +10,13 @@
             <tr><th>Company Name</th></tr>
         </thead>
         <tbody>
-            @foreach (string name in Model.Suppliers) // using C#, gets the value in the array defined in suppliers.cshtml.cs
+            @* @foreach (string name in Model.Suppliers) // using C#, gets the value in the array defined in suppliers.cshtml.cs
             {
                 <tr><td>@name</td></tr>
+            } *@
+
+            @for (int i = 0; i < Model.SuppliersName.Count; i++) {
+                <tr><td>@Model.SuppliersName[i]</td><td>@Model.SuppliersCountry[i]</td><td>@Model.SuppliersPhone[i]</td></tr>
             }
         </tbody>
     </table>
@@ -20,10 +24,15 @@
 
 <!-- Form allowing a user to insert a new supplier -->
 <div class="row">
-    <p>Enter a name for a new supplier:</p>
+    @* <p>Enter a name for a new supplier:</p> *@
     <form method="POST">
         <!-- 'asp-for' tag helper enables data binding to the model behind the Razor page -->
+        <p>Enter a name for a new supplier:</p>
         <div><input asp-for="Supplier.CompanyName" /></div>
+        <p>Enter a country for a new supplier:</p>
+        <div><input asp-for="Supplier.Country" /></div>
+        <p>Enter a phone for a new supplier:</p>
+        <div><input asp-for="Supplier.Phone" /></div>
         <input type="submit" />
     </form>
 </div>
