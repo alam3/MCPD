@@ -18,8 +18,8 @@ namespace NorthwindWeb.Pages {
             db = injectedContext;
         }
 
-        // public IList<string> SuppliersName { get; set; }
-        public IList<Supplier> Suppliers { get; set; } // List of Supplier-type items
+        // public IEnumerable<string> SuppliersName { get; set; }
+        public IEnumerable<string[]> Suppliers { get; set; }
 
 
         public void OnGet() {
@@ -31,9 +31,7 @@ namespace NorthwindWeb.Pages {
             // For using EntityFrameworkCore with ASP.NET
             // Getting supplier from the Northwind database
             // SuppliersName = db.Suppliers.Select(s => s.CompanyName).ToList();
-
-            Suppliers = db.Suppliers.ToList(); // Gets the entire "Supplier" type object
-            // TODO: What data type to use to store a projection of the query?
+            Suppliers = db.Suppliers.Select(s => new string[] {s.CompanyName, s.Country, s.Phone});
         }
 
         // For manipulating data in Razor Pages with EntityFrameworkCore

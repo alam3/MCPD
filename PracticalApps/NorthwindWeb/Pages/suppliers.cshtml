@@ -2,7 +2,6 @@
 @model NorthwindWeb.Pages.SuppliersModel // sets the Razor Page model
 <!-- Add tag helpers for adding in an input form, e.g. 'asp-for' -->
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-@using Packt.Shared
 
 <div class="row">
     <h1 class="display-2">Suppliers</h1>
@@ -11,8 +10,8 @@
             <tr><th>Company Name</th></tr>
         </thead>
         <tbody>
-            @foreach (Supplier item in Model.Suppliers) {
-                <tr><td>@item.CompanyName</td><td>@item.Country</td><td>@item.Phone</td></tr>
+            @foreach (string[] item in Model.Suppliers) {
+                <tr><td>@item[0]</td><td>@item[1]</td><td>@item[2]</td></tr>
             }
         </tbody>
     </table>
