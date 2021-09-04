@@ -19,7 +19,8 @@ namespace NorthwindWeb.Pages {
         }
 
         // public IEnumerable<string> SuppliersName { get; set; }
-        public IEnumerable<string[]> Suppliers { get; set; }
+        // public IEnumerable<string[]> Suppliers { get; set; }
+        public IEnumerable<SortedList<string,string>> Suppliers { get; set; }
 
 
         public void OnGet() {
@@ -31,7 +32,13 @@ namespace NorthwindWeb.Pages {
             // For using EntityFrameworkCore with ASP.NET
             // Getting supplier from the Northwind database
             // SuppliersName = db.Suppliers.Select(s => s.CompanyName).ToList();
-            Suppliers = db.Suppliers.Select(s => new string[] {s.CompanyName, s.Country, s.Phone});
+
+            // Suppliers = db.Suppliers.Select(s => new string[] {s.CompanyName, s.Country, s.Phone});
+            Suppliers = db.Suppliers.Select(s => new SortedList<string,string>() {
+                {"CompanyName", s.CompanyName},
+                {"Country", s.Country},
+                {"Phone", s.Phone}
+            });
         }
 
         // For manipulating data in Razor Pages with EntityFrameworkCore

@@ -10,8 +10,12 @@
             <tr><th>Company Name</th></tr>
         </thead>
         <tbody>
-            @foreach (string[] item in Model.Suppliers) {
+            @* @foreach (string[] item in Model.Suppliers) {
                 <tr><td>@item[0]</td><td>@item[1]</td><td>@item[2]</td></tr>
+            } *@
+
+            @foreach (SortedList<string,string> supplier in Model.Suppliers) {
+                <tr><td>@supplier["CompanyName"]</td><td>@supplier["Country"]</td><td>@supplier["Phone"]</td></tr>
             }
         </tbody>
     </table>
