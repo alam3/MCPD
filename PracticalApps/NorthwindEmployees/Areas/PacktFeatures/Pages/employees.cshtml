@@ -19,6 +19,7 @@
     @* Enumerate employees in the model and display in small pieces of a Razor page (thru "<partial>") *@
     @foreach (Employee employee in Model.Employees) {
         <div class="col-sm-3">
+            @* Partial is defined in the _Employee.cshtml file under the Shared directory *@
             <partial name="_Employee" model="employee" />
         </div>
     }

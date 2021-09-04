@@ -1,0 +1,14 @@
+@model Packt.Shared.Employee
+
+@* This file defines a partial view. They start with an underscore by convention.
+   Storing it in the Shared folder allows it to be found automatically. *@
+
+<div class="card border-dark mb-3" style="max-width: 18rem;">
+    <div class="card-header">@Model.FirstName
+        @Model.LastName
+    </div>
+    <div class="card-body text-dark">
+        <h5 class="card-title">@Model.Country</h5>
+        <p class="card-text">@Model.Notes</p>
+    </div>
+</div>
