@@ -1,0 +1,25 @@
+﻿@page
+
+@* Packt.Shared imported so "Employee" class can be used *@
+@using Packt.Shared 
+
+@* Tag helper support allows for "<partial>"" element *@
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@* Model is the class defined in employees.cshtml.cs *@
+@model PacktFeatures.Pages.EmployeesPageModel
+
+<!DOCTYPE html>
+
+<div class="row">
+    <h1 class="display-2">Employees</h1>
+</div>
+
+<div class="row">
+    @* Enumerate employees in the model and display in small pieces of a Razor page (thru "<partial>") *@
+    @foreach (Employee employee in Model.Employees) {
+        <div class="col-sm-3">
+            <partial name="_Employee" model="employee" />
+        </div>
+    }
+</div>
