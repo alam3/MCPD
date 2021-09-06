@@ -11,6 +11,9 @@ using Microsoft.Extensions.Hosting;
 using System.IO;
 using Microsoft.EntityFrameworkCore;
 using Packt.Shared;
+// Configuring the HTTP request pipeline
+using Microsoft.AspNetCore.Routing;
+using static System.Console;
 
 namespace NorthwindWeb
 {
@@ -36,7 +39,30 @@ namespace NorthwindWeb
                 app.UseHsts();
             }
 
-            app.UseRouting();
+            app.UseRouting(); // must be used with a call to UseEndpoints()
+
+            // Configuring the HTTP request pipeline - use an anonymous method as a middleware delegate
+            // Handles the pipeline AFTER UseRouting() is called and shows which endpoint was chosen and
+            // handles the '/bonjour' route outside of the UseRouting()/UseEndpoints() calls.
+            // Going to '/bonjour' will not display data on the console as it is processed after the UseRouting return data
+            app.Use(async (HttpContext context, Func<Task> next) => {
+                var rep = context.GetEndpoint() as RouteEndpoint;
+                if (rep != null) {
+                    WriteLine($"Endpoint name: {rep.DisplayName}");
+                    WriteLine($"Endpoint route pattern: {rep.RoutePattern.RawText}");
+                }
+                if (context.Request.Path == "/bonjour") {
+                    // in the case of a match on URL path, this becomes a terminating
+                    // delegate that returns so does not call the next delegate
+                    await context.Response.WriteAsync("Bonjour Monde!");
+                    return;
+                }
+                // we could modify the request before calling the next delegate
+                await next();
+                // we could modify the response after calling the next delegate
+            });
+
+
             app.UseHttpsRedirection();
 
             // Tell the webserver to use and find the static files to present when the website is accessed.
