@@ -19,7 +19,8 @@ namespace NorthwindWeb.Pages {
 
             Customers = db.Customers.Select(c => new SortedList<string,string>() {
                 {"CustomerName", c.CompanyName},
-                {"Country", c.Country}
+                {"Country", c.Country},
+                {"CustomerID", c.CustomerID}
             });
         }
     }

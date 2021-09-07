@@ -1,0 +1,20 @@
+@page
+@model NorthwindWeb.Pages.CustomerDetailsModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using Packt.Shared
+
+
+
+<div class="row">
+    <h1 class="display-2">@Model.CustomerDetails.CompanyName</h1>
+</div>
+<div class="row">
+    <div>
+        <p><b>Contact:</b> @Model.CustomerDetails.ContactName</p>
+        <p><b>Phone:</b> @Model.CustomerDetails.Phone</p>
+        <p><b>Address:</b> <br> @Model.CustomerDetails.Address, <br>
+        @Model.CustomerDetails.City, @Model.CustomerDetails.Region @Model.CustomerDetails.PostalCode 
+        <br>@Model.CustomerDetails.Country
+        </p>
+    </div>
+</div>

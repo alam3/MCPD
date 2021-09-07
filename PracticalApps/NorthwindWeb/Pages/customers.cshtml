@@ -10,7 +10,18 @@
         </thead>
         <tbody>
             @foreach (SortedList<string,string> customer in Model.Customers) {
-                <tr><td>@customer["CustomerName"]</td><td>@customer["Country"]</td></tr>
+
+                Dictionary<string,string> dictCustDetails =
+                    new Dictionary<string, string> { { "CustomerID", @customer["CustomerID"] } };
+
+                <tr>
+                    @* <td>@customer["CustomerName"]</td> *@
+                    <td>
+                        <a asp-page="./customerdetails" asp-all-route-data="dictCustDetails">@customer["CustomerName"]</a>
+                    </td>
+                    <td>@customer["Country"]</td>
+                    @* <td>@customer["CustomerID"]</td> *@
+                </tr>
             }
         </tbody>
     </table>
