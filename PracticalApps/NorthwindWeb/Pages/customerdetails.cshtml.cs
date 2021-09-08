@@ -14,24 +14,12 @@ namespace NorthwindWeb.Pages {
         }
 
         public Customer CustomerDetails { get; set; }
+        public IEnumerable<Order> CustomerOrders { get; set; }
 
         public void OnGet(string CustomerID) { // this needs to match the Key string in the dictionary sent thru 'asp-all-route-data'!
             // WriteLine($"passed value: {CustomerID}");
             CustomerDetails = db.Customers.Single(c => CustomerID.Equals(c.CustomerID));
-
-
-
-
-
-
-
-            // ViewData["Title"] = "Northwind Web Site - Customers";
-
-            // Customers = db.Customers.Select(c => new SortedList<string,string>() {
-            //     {"CustomerName", c.CompanyName},
-            //     {"Country", c.Country},
-            //     {"CustomerID", c.CustomerID}
-            // });
+            CustomerOrders = db.Orders.Where(o => CustomerID.Equals(o.CustomerID)).ToArray();
         }
     }
 }

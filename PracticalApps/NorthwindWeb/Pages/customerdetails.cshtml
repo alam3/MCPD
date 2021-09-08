@@ -18,3 +18,25 @@
         </p>
     </div>
 </div>
+<div class="row">
+    <table class="table">
+        <thead class="thead-inverse">
+            <tr>
+                <th>Order ID</th>
+                <th>Order Date</th>
+                <th>Shipped Date</th>
+                <th>Recipient</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Order customerOrder in Model.CustomerOrders) {
+                <tr>
+                    <td>@customerOrder.OrderID</td>
+                    <td>@customerOrder.OrderDate</td>
+                    <td>@customerOrder.ShippedDate</td>
+                    <td>@customerOrder.ShipName</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

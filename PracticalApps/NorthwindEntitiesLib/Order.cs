@@ -31,11 +31,11 @@ namespace Packt.Shared
         [Column(TypeName = "int")]
         public long? EmployeeID { get; set; }
         [Column(TypeName = "datetime")]
-        public byte[] OrderDate { get; set; }
+        public DateTime? OrderDate { get; set; }
         [Column(TypeName = "datetime")]
-        public byte[] RequiredDate { get; set; }
+        public DateTime? RequiredDate { get; set; }
         [Column(TypeName = "datetime")]
-        public byte[] ShippedDate { get; set; }
+        public DateTime? ShippedDate { get; set; }
         [Column(TypeName = "int")]
         public long? ShipVia { get; set; }
         [Column(TypeName = "money")]
