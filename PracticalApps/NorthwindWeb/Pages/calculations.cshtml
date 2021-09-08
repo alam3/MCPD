@@ -1,0 +1,35 @@
+@page
+@model NorthwindWeb.Pages.CalculationsModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<div class="row">
+    <h1 class="display-2">Calculations</h1>
+</div>
+
+<div class="row">
+    <form method="POST">
+        <!-- 'asp-for' tag helper enables data binding to the model behind the Razor page -->
+        <p>Enter a value to calculate a times table:</p>
+        <div><input asp-for="Multiplicand" /></div>
+        <input type="submit" />
+    </form>
+</div>
+<div class="row">
+    <table class="table">
+        <thead class="thead-inverse">
+            <th>Multiplicand</th>
+            <th>Multiplier</th>
+            <th>Result</th>
+        </thead>
+        <tbody>
+            @for(int i = 0; i < Model.Result.Count(); i++) {
+                int multiplier = i + 1;
+                <tr>
+                    <td>@Model.Multiplicand</td>
+                    <td>@multiplier</td>
+                    <td>@Model.Result[i]</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
