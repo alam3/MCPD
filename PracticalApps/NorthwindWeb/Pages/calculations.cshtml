@@ -22,14 +22,20 @@
             <th>Result</th>
         </thead>
         <tbody>
-            @for(int i = 0; i < Model.Result.Count(); i++) {
+            @for(int i = 0; i < Model.TimesTableResult.Count(); i++) {
                 int multiplier = i + 1;
                 <tr>
                     <td>@Model.Multiplicand</td>
                     <td>@multiplier</td>
-                    <td>@Model.Result[i]</td>
+                    <td>@Model.TimesTableResult[i]</td>
                 </tr>
             }
         </tbody>
     </table>
+</div>
+<div class="row">
+    <h1 class="display-5">The factorial of @Model.Multiplicand is @Model.FactorialResult.</h1>
+</div>
+<div class="row">
+    <h1 class="display-5">The fibonacci sequence with @Model.Multiplicand terms is: @Model.FibonacciSequenceString</h1>
 </div>
