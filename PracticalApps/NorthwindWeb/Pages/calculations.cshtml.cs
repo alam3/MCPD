@@ -34,12 +34,18 @@ namespace NorthwindWeb.Pages {
                     TimesTableResult.Add(Multiplicand * i);
                 }
 
-                FactorialResult = Factorial(Multiplicand);
-
-                for (long i = 1; i <= Multiplicand; i++) {
-                    fibonacciResult.Add(FibonacciTerm(i));
+                if (Multiplicand <= 42) {
+                    FactorialResult = Factorial(Multiplicand);
+                    for (long i = 1; i <= Multiplicand; i++) {
+                        fibonacciResult.Add(FibonacciTerm(i));
+                    }
+                    FibonacciSequenceString = string.Join(", ", fibonacciResult.ToArray());
+                } else {
+                    FactorialResult = -1;
+                    FibonacciSequenceString = "This will take too long!";
                 }
-                FibonacciSequenceString = string.Join(", ", fibonacciResult.ToArray());
+
+                
             }
             return Page();
         }
