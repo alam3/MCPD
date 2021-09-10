@@ -13,6 +13,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
+// Northwind imports
+using Packt.Shared;
+using System.IO;
+
 namespace NorthwindMvc
 {
     public class Startup
@@ -35,6 +39,10 @@ namespace NorthwindMvc
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
+
+            // Configure the Northwind database context
+            string databasePath = Path.Combine("..", "Northwind.db");
+            services.AddDbContext<Northwind>(options => options.UseSqlite($"Data Source={databasePath}"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
