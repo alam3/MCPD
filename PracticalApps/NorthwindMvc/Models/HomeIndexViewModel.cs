@@ -1,4 +1,5 @@
 // Count number of visitors, have lists of categories and products
+// "Models represent the data required to respond to a request"
 
 using System.Collections.Generic;
 using Packt.Shared;
