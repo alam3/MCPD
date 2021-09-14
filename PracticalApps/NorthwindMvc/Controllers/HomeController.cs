@@ -46,5 +46,23 @@ namespace NorthwindMvc.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        // Passing parameters using a route value ("id" in this case)
+        public IActionResult ProductDetail(int? id) {
+            // Model binding automatically matches 'id' passed in the route with a parameter named 'id' in the method.
+            if (!id.HasValue) {
+                return NotFound("You must pass a product ID in the route, for example, /Home/ProductDetail/21");
+            }
+
+            var model = db.Products.SingleOrDefault(p => p.ProductID == id);
+            if (model == null) {
+                return NotFound($"Product with ID of {id} not found.");
+            }
+
+            return View(model); // pass model to view and then return result
+            // If the view is named after the action method (this method), and placed in the folder that matches the
+            // controller name or a shared folder, then ASP.NET Core MVC can automatically find it.
+            // The view here is in ../Views/Home/ProductDetail.cshtml
+        }
     }
 }
