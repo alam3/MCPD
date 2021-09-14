@@ -64,5 +64,16 @@ namespace NorthwindMvc.Controllers
             // controller name or a shared folder, then ASP.NET Core MVC can automatically find it.
             // The view here is in ../Views/Home/ProductDetail.cshtml
         }
+
+        // Model binding examples
+        public IActionResult ModelBinding() {
+            return View(); // the page with a form to submit
+        }
+        // Without a [HttpPost] decoration, HTTP cannot differentiate between both ModelBinding() methods and an error is thrown.
+        // The decoration indicates this method should be used for processing HTTP POST requests.
+        [HttpPost]
+        public IActionResult ModelBinding(Thing thing) {
+            return View(thing); // show the model bound thing
+        }
     }
 }
