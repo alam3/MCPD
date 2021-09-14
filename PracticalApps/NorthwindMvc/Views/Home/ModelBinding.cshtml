@@ -1,4 +1,5 @@
-@model NorthwindMvc.Models.Thing
+@* @model NorthwindMvc.Models.Thing *@ // commented to show Model validation example
+@model NorthwindMvc.Models.HomeModelBindingViewModel // use the view model class
 @{
     ViewData["Title"] = "Model Binding Demo";
 }
@@ -19,10 +20,22 @@
     <hr />
     <div>
         <dl class="dl-horizontal">
-            <dt>Model.ID</dt>
+            @* <dt>Model.ID</dt>
             <dd>@Model.ID</dd>
             <dt>Model.Color</dt>
-            <dd>@Model.Color</dd>
+            <dd>@Model.Color</dd> *@
+            <dt>Model.Thing.ID</dt>
+            <dd>@Model.Thing.ID</dd>
+            <dt>Model.Thing.Color</dt>
+            <dd>@Model.Thing.Color</dd>
         </dl>
     </div>
+    @* For Model Validation: show error if there are any *@
+    @if (Model.HasErrors) {
+        <div>
+            @foreach (string errorMessage in Model.ValidationErrors) {
+                <div class="alert alert-danger" role="alert">@errorMessage</div>
+            }
+        </div>
+    }
 }

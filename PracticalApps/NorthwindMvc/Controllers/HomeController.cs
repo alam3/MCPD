@@ -73,7 +73,17 @@ namespace NorthwindMvc.Controllers
         // The decoration indicates this method should be used for processing HTTP POST requests.
         [HttpPost]
         public IActionResult ModelBinding(Thing thing) {
-            return View(thing); // show the model bound thing
+            // return View(thing); // show the model bound thing; commented for showing a model validation example
+
+            // Create instance of the view model. Validate model and store and array of error messages, then pass to view.
+            var model = new HomeModelBindingViewModel {
+                Thing = thing,
+                HasErrors = !ModelState.IsValid,
+                ValidationErrors = ModelState.Values
+                    .SelectMany(state => state.Errors)
+                    .Select(error => error.ErrorMessage)
+            };
+            return View(model);
         }
     }
 }
