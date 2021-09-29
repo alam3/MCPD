@@ -57,6 +57,12 @@
         <p class="lead">
             We have had @Model.VisitorCount visitors this month.
         </p>
+        @* Querying a database and using display templates *@
+        <h3>Query products by price</h3>
+        <form asp-action="ProductsThatCostMoreThan" method="get">
+            <input name="price" placeholder="Enter a product price" />
+            <input type="submit" />
+        </form>
         <h2>Products</h2>
         <div id="newspaper">
             <ul>
