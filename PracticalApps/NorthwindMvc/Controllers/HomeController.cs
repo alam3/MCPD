@@ -8,6 +8,8 @@ using Microsoft.Extensions.Logging;
 using NorthwindMvc.Models;
 // Querying a database and using display templates
 using Microsoft.EntityFrameworkCore; // Adds the "Include" extension method
+// Making controller action methods asynchronous
+using System.Threading.Tasks;
 
 // Imports for Northwind
 using Packt.Shared;
@@ -26,13 +28,17 @@ namespace NorthwindMvc.Controllers
             db = injectedContext;
         }
 
-        public IActionResult Index()
+        // public IActionResult Index() // not asynchronous
+        // Making controller action methods asynchronous
+        public async Task<IActionResult> Index()
         {
             // Create instance of the view model for this method
             var model = new HomeIndexViewModel { 
                 VisitorCount = (new Random()).Next(1, 1001),
-                Categories = db.Categories.ToList(),
-                Products = db.Products.ToList()
+                // Categories = db.Categories.ToList(),
+                // Products = db.Products.ToList()
+                Categories = await db.Categories.ToListAsync(), // asynchronous
+                Products = await db.Products.ToListAsync() // asynchronous
             };
 
             return View(model); // pass model to view
@@ -50,13 +56,17 @@ namespace NorthwindMvc.Controllers
         }
 
         // Passing parameters using a route value ("id" in this case)
-        public IActionResult ProductDetail(int? id) {
+        // public IActionResult ProductDetail(int? id) { // not asynchronous
+        // Making controller action methods asynchronous
+        public async Task<IActionResult> ProductDetail(int? id) {
             // Model binding automatically matches 'id' passed in the route with a parameter named 'id' in the method.
             if (!id.HasValue) {
                 return NotFound("You must pass a product ID in the route, for example, /Home/ProductDetail/21");
             }
 
-            var model = db.Products.SingleOrDefault(p => p.ProductID == id);
+            // var model = db.Products.SingleOrDefault(p => p.ProductID == id);
+            var model = await db.Products.SingleOrDefaultAsync(p => p.ProductID == id); // asynchronous
+
             if (model == null) {
                 return NotFound($"Product with ID of {id} not found.");
             }
