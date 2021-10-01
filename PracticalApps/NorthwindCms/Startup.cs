@@ -80,6 +80,10 @@ namespace NorthwindCms
             // Initialize Piranha
             App.Init(api);
 
+            // register GIFs as a media type
+            // handling for non-default media types can be added in this manner
+            App.MediaTypes.Images.Add(".gif", "image/gif");
+
             // Build content types
             new ContentTypeBuilder(api)
                 .AddAssembly(typeof(Startup).Assembly)
