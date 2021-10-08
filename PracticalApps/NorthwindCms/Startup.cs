@@ -9,6 +9,8 @@ using Piranha.AttributeBuilder;
 using Piranha.AspNetCore.Identity.SQLite;
 using Piranha.Data.EF.SQLite;
 using Piranha.Manager.Editor;
+// Configuring content types and Northwind DB connection
+using System.IO;
 
 namespace NorthwindCms
 {
@@ -67,6 +69,10 @@ namespace NorthwindCms
                 options.LoginUrl = "login";
                  */
             });
+
+            // Configuring content types and Northwind DB connection
+            string databasePath = Path.Combine("..", "Northwind.db");
+            services.AddDbContext<Packt.Shared.Northwind>(options => options.UserSqlite($"Data source={databasePath}"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
