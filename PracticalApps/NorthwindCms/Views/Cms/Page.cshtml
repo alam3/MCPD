@@ -23,6 +23,20 @@
 </header>
 
 <main>
+    @* output an import message *@
+    @if(TempData[import_message] != null) {
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="alert alert-info" role="alert">
+                        <h4 class="alert-heading">Import</h4>
+                        <p>@TempData["import_message"]</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
     @foreach (var block in Model.Blocks)
     {
         <div class="block @block.CssName()">
