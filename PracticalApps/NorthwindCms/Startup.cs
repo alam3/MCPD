@@ -72,7 +72,7 @@ namespace NorthwindCms
 
             // Configuring content types and Northwind DB connection
             string databasePath = Path.Combine("..", "Northwind.db");
-            services.AddDbContext<Packt.Shared.Northwind>(options => options.UserSqlite($"Data source={databasePath}"));
+            services.AddDbContext<Packt.Shared.Northwind>(options => options.UseSqlite($"Data source={databasePath}"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

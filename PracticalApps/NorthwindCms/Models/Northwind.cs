@@ -34,8 +34,8 @@ namespace Packt.Shared {
                 .HasMany(c => c.Products)
                 .WithOne(p => p.Category);
             modelBuilder.Entity<Product>()
-                .HasMany(p => p.Category)
-                .WithOne(c => c.Products);
+                .HasOne(p => p.Category)
+                .WithMany(c => c.Products);
         }
     }
 }

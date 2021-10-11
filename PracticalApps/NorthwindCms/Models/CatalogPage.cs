@@ -5,7 +5,7 @@ using Piranha.Models;
 
 namespace NorthwindCms.Models {
     [PageType(Title = "Catalog page", UseBlocks = false)] // disable blocks use
-    [PageTypeRoute(Title = "Default", Route = "/catalog")] // define custom route path
+    [ContentTypeRoute(Title = "Default", Route = "/catalog")] // define custom route path
     public class CatalogPage : Page<CatalogPage> {
     }
 }

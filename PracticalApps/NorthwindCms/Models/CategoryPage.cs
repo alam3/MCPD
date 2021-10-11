@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace NorthwindCms.Models {
     [PageType(Title = "Category Page", UseBlocks = false)] // Do not allow blocks use
-    [PageTypeRoute(Title = "Default", Route = "/catalog-category")] // define custom route
+    [ContentTypeRoute(Title = "Default", Route = "/catalog-category")] // define custom route
     public class CategoryPage : Page<CategoryPage> {
         [Region(Title = "Category detail")]
         [RegionDescription("The details for this category.")]

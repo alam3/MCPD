@@ -139,11 +139,11 @@ namespace NorthwindCms.Controllers
                 CatalogPage = catalog,
                 Categories = (await _api.Sites.GetSitemapAsync())
                     // get the catalog page
-                    .Where(item => item.Id = catalog.Id)
+                    .Where(item => item.Id == catalog.Id)
                     // get its children
                     .SelectMany(item => item.Items)
                     // for each child sitemap item, get the page and return a simplified model for the view
-                    .Select(InvalidTimeZoneException => {
+                    .Select(item => {
                         var page = _api.Pages.GetByIdAsync<CategoryPage>(item.Id).Result;
                         var ci = new CategoryItem {
                             Title = page.Title,
