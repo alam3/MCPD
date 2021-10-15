@@ -48,6 +48,62 @@ namespace NorthwindService.Controllers {
         // POST: api/customers
         // BODY: Customer (JSON, XML)
         [HttpPost]
-        
+        [ProducesResponseType(201, Type = typeof(Customer))]
+        [ProducesResponseType(400)]
+        public async Task<IActionResult> Create([FromBody] Customer c) {
+            if (c == null) {
+                return BadRequest(); // 400 Bad request
+            }
+            if (!ModelState.IsValid) {
+                return BadRequest(ModelState); // 400 Bad request because model is invalid
+            }
+            Customer added = await repo.CreateAsync(c);
+            return CreatedAtRoute( // 201 Created
+                routeName: nameof(GetCustomer),
+                routeValues: new { id = added.CustomerID.ToLower() },
+                value: added);
+        }
+
+        // PUT: api/customers/[id]
+        // BODY: Customer (JSON, XML)
+        [HttpPut("{id}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        public async Task<IActionResult> Update(string id, [FromBody] Customer c) {
+            id = id.ToUpper();
+            c.CustomerID = c.CustomerID.ToUpper();
+            if (c == null || c.CustomerID != id) {
+                return BadRequest(); // 400 Bad request
+            }
+            if (!ModelState.IsValid) {
+                return BadRequest(ModelState); // 400 Bad request
+            }
+            var existing = await repo.RetrieveAsync(id);
+            if (existing == null) {
+                return NotFound(); // 404 Resource not found
+            }
+            await repo.UpdateAsync(id, c); // Update value
+            return new NoContentResult(); // 204 No content
+        }
+
+        // DELETE: api/customers/[id]
+        [HttpDelete("{id}")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        public async Task<IActionResult> Delete(string id) {
+            var existing = await repo.RetrieveAsync(id);
+            if (existing == null) {
+                return NotFound(); // 404 Resource not found
+            }
+            bool? deleted = await repo.DeleteAsync(id);
+            if (deleted.HasValue && deleted.Value) { // short circuit AND
+                return new NoContentResult(); // 204 No content
+            } else {
+                return BadRequest( // 400 Bad request
+                    $"Customer {id} was found but failed to delete.");
+            }
+        }
     }
 }
