@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
+// Ch 18 - removing XML serialization warning around interfaces
+using System.Xml.Serialization;
+
 
 #nullable disable
 
@@ -57,6 +60,8 @@ namespace Packt.Shared
         public string Fax { get; set; }
 
         [InverseProperty(nameof(Order.Customer))]
+        // Ch 18 - removing XML serialization warning around interfaces
+        [XmlIgnore]
         public virtual ICollection<Order> Orders { get; set; }
     }
 }
