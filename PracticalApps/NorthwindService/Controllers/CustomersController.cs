@@ -6,6 +6,8 @@ using NorthwindService.Repositories;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+// Specifying instances of ProblemDetails to provide data on an error
+using Microsoft.AspNetCore.Http;
 
 namespace NorthwindService.Controllers {
     // base address: api/customers
@@ -83,7 +85,7 @@ namespace NorthwindService.Controllers {
             if (existing == null) {
                 return NotFound(); // 404 Resource not found
             }
-            await repo.UpdateAsync(id, c); // Update value
+            await repo.UpdateAsync(id, c); // Update value if data in body of HTTP request is valid
             return new NoContentResult(); // 204 No content
         }
 
@@ -93,6 +95,20 @@ namespace NorthwindService.Controllers {
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         public async Task<IActionResult> Delete(string id) {
+            
+            // Specifying instances of ProblemDetails to provide data on an error
+            // take control of problem details, simulating a "bad" id
+            if (id == "bad") {
+                var problemDetails = new ProblemDetails {
+                    Status = StatusCodes.Status400BadRequest,
+                    Type = "https://localhost:5001/customers/failed-to-delete",
+                    Title = $"Customer ID {id} found but failed to delete.",
+                    Detail = "More details like Company Name, Country and so on.",
+                    Instance = HttpContext.Request.Path
+                };
+                return BadRequest(problemDetails); // 400 Bad request
+            }
+
             var existing = await repo.RetrieveAsync(id);
             if (existing == null) {
                 return NotFound(); // 404 Resource not found
