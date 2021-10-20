@@ -1,6 +1,5 @@
 PUT https://localhost:5001/api/customers/ABCXY/ HTTP/1.1
 Content-Type: application/json
-Content-Length: 287
 
 {
   "customerID": "ABCXY",
