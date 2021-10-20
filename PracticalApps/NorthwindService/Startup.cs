@@ -19,6 +19,10 @@ using Packt.Shared;
 using static System.Console;
 // Example differentiating between MVC and WebAPI Controllers using routes
 using NorthwindService.Repositories;
+// Imports for adding Sawgger UI (needs Microsoft.OpenApi.Models above)
+using Swashbuckle.AspNetCore.Swagger;
+using Swashbuckle.AspNetCore.SwaggerUI;
+
 
 namespace NorthwindService
 {
@@ -56,13 +60,20 @@ namespace NorthwindService
             .AddXmlSerializerFormatters()
             .SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "NorthwindService", Version = "v1" });
-            });
+            // services.AddSwaggerGen(c =>
+            // {
+            //     c.SwaggerDoc("v1", new OpenApiInfo { Title = "NorthwindService", Version = "v1" });
+            // });
 
             // Register the CustomerRepository for use at runtime
             services.AddScoped<ICustomerRepository, CustomerRepository>();
+
+            // Register the Swagger generator and define a Swagger document for Northwind Service
+            services.AddSwaggerGen(options => {
+                options.SwaggerDoc(name: "v1", info: new OpenApiInfo {
+                    Title = "Northwind Service API", Version = "v1"
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -72,7 +83,12 @@ namespace NorthwindService
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "NorthwindService v1"));
+                app.UseSwaggerUI(c => {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Northwind Service API Version 1");
+                    c.SupportedSubmitMethods(new[] {
+                        SubmitMethod.Get, SubmitMethod.Post,
+                        SubmitMethod.Put, SubmitMethod.Delete });
+                });
             }
 
             app.UseHttpsRedirection();
