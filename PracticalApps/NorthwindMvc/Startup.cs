@@ -17,6 +17,9 @@ using Microsoft.Extensions.Hosting;
 using Packt.Shared;
 using System.IO;
 
+// HTTPClient imports
+using System.Net.Http.Headers;
+
 namespace NorthwindMvc
 {
     public class Startup
@@ -43,6 +46,15 @@ namespace NorthwindMvc
             // Configure the Northwind database context
             string databasePath = Path.Combine("..", "Northwind.db");
             services.AddDbContext<Northwind>(options => options.UseSqlite($"Data Source={databasePath}"));
+
+            // Enable HttpClientFactory to make calls to the Northwind Web API services using port 5001
+            services.AddHttpClient(name: "NorthwindService",
+                configureClient: options => {
+                    options.BaseAddress = new Uri("https://localhost:5001/");
+                    options.DefaultRequestHeaders.Accept.Add(
+                        new MediaTypeWithQualityHeaderValue("application/json", 1.0)
+                    );
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
