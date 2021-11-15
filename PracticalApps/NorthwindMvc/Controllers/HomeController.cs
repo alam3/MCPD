@@ -26,15 +26,11 @@ namespace NorthwindMvc.Controllers
 
         // Field to store reference to Northwind instance and constructor initialization
         private Northwind db;
-        public HomeController(ILogger<HomeController> logger, Northwind injectedContext)
-        {
-            _logger = logger;
-            db = injectedContext;
-        }
 
         // Field to store the HTTP Client Factory
         private readonly IHttpClientFactory clientFactory;
-        public HomeController(ILogger<HomeController> logger, Northwind injectedContext, IHttpClientFactory httpClientFactory) {
+        public HomeController(ILogger<HomeController> logger, Northwind injectedContext, IHttpClientFactory httpClientFactory)
+        {
             _logger = logger;
             db = injectedContext;
             clientFactory = httpClientFactory;
