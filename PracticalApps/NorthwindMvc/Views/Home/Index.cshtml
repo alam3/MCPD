@@ -57,6 +57,14 @@
         <p class="lead">
             We have had @Model.VisitorCount visitors this month.
         </p>
+
+        @* Form allowing user to search for a country *@
+        <h3>Query customers from a service</h3>
+        <form asp-action="Customers" method="get">
+            <input name="country" placeholder="Enter a country" />
+            <input type="submit" />
+        </form>
+
         @* Querying a database and using display templates *@
         <h3>Query products by price</h3>
         <form asp-action="ProductsThatCostMoreThan" method="get">
