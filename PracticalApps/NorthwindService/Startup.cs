@@ -22,6 +22,9 @@ using NorthwindService.Repositories;
 // Imports for adding Sawgger UI (needs Microsoft.OpenApi.Models above)
 using Swashbuckle.AspNetCore.Swagger;
 using Swashbuckle.AspNetCore.SwaggerUI;
+// Endpoint routing configuration
+using Microsoft.AspNetCore.Http; // For GetEndpoint() extension method
+using Microsoft.AspNetCore.Routing; // RouteEndpoint
 
 
 namespace NorthwindService
@@ -111,6 +114,20 @@ namespace NorthwindService
 
             // Use basic health checks
             app.UseHealthChecks(path: "/howdoyoufeel");
+
+            // Lambda statement to output information about the selected endpoint during every request
+            app.Use(next => (context) => {
+                var endpoint = context.GetEndpoint();
+                if (endpoint != null) {
+                    WriteLine("*** Name: {0}; Route: {1}; Metadata: {2}",
+                              arg0: endpoint.DisplayName,
+                              arg1: (endpoint as RouteEndpoint)?.RoutePattern,
+                              arg2: string.Join(", ", endpoint.Metadata));
+                }
+
+                // pass context to the next middleware in the pipeline
+                return next(context);
+            });
 
             app.UseEndpoints(endpoints =>
             {
