@@ -77,6 +77,9 @@ namespace NorthwindService
                     Title = "Northwind Service API", Version = "v1"
                 });
             });
+
+            // Add health checks from the references package ...HealthChecks.EntityFrameworkCore in NorthwindService.csproj
+            services.AddHealthChecks().AddDbContextCheck<Northwind>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -105,6 +108,9 @@ namespace NorthwindService
                 options.WithMethods("GET", "POST", "PUT", "DELETE");
                 options.WithOrigins("https://localhost:5002"); // for MVC client
             });
+
+            // Use basic health checks
+            app.UseHealthChecks(path: "/howdoyoufeel");
 
             app.UseEndpoints(endpoints =>
             {
