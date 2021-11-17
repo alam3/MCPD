@@ -129,6 +129,9 @@ namespace NorthwindService
                 return next(context);
             });
 
+            // Register the middleware adding more HTTP security headers
+            app.UseMiddleware<SecurityHeaders>();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
