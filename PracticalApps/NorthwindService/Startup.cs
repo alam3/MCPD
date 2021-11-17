@@ -134,7 +134,8 @@ namespace NorthwindService
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapControllers()
+                    .AllowAnonymous(); // improvement in .NET5 enabling anonymous HTTP calls when using endpoint routing.
             });
         }
     }
