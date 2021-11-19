@@ -4,6 +4,6 @@ using System.Collections.Generic;
 
 namespace NorthwindML.Models {
     public class Cart {
-        public IEnumerable<CartItem> Item { get; set; }
+        public IEnumerable<CartItem> Items { get; set; }
     }
 }

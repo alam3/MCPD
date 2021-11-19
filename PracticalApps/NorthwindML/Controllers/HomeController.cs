@@ -152,5 +152,78 @@ namespace NorthwindML.Controllers
             model.Milliseconds = stopWatch.ElapsedMilliseconds;
             return View("Index", model);
         }
+
+        // Action method to add a product to the shopping cart and then show the cart with the best three recommendations
+        // GET /Home/Cart to show the cart and recommendations
+        // GET /Home/Cart/5 to add a product to the cart
+        public IActionResult Cart(int? id) {
+            // the current cart is stored as a cookie
+            string cartCookie = Request.Cookies["nw_cart"] ?? string.Empty;
+            // if visitor clicked Add to Cart button
+            if (id.HasValue) {
+                if (string.IsNullOrWhiteSpace(cartCookie)) {
+                    cartCookie = id.ToString();
+                } else {
+                    string[] ids = cartCookie.Split('-');
+                    if (!ids.Contains(id.ToString())) {
+                        cartCookie = string.Join('-', cartCookie, id.ToString());
+                    }
+                }
+                Response.Cookies.Append("nw_cart", cartCookie);
+            }
+
+            var model = new HomeCartViewModel {
+                Cart = new Cart {
+                    Items = Enumerable.Empty<CartItem>()
+                },
+                Recommendations = new List<EnrichedRecommendation>()
+            };
+
+            if (cartCookie.Length > 0) {
+                model.Cart.Items = cartCookie.Split('-').Select(item => 
+                    new CartItem {
+                        ProductID = long.Parse(item),
+                        ProductName = db.Products.Find(long.Parse(item)).ProductName
+                    });
+            }
+
+            if (System.IO.File.Exists(GetDataPath("germany-model.zip"))) {
+                var mlContext = new MLContext();
+                ITransformer modelGermany;
+                using (var stream = new FileStream(path: GetDataPath("germany-model.zip"),
+                    mode: FileMode.Open,
+                    access: FileAccess.Read,
+                    share: FileShare.Read)) {
+                        modelGermany = mlContext.Model.Load(stream, out DataViewSchema schema);
+                    }
+
+                var predictionEngine = mlContext.Model.CreatePredictionEngine<ProductCobought, Recommendation>(modelGermany);
+                var products = db.Products.ToArray();
+
+                foreach (var item in model.Cart.Items) {
+                    var topThree = products.Select(product => predictionEngine.Predict(
+                            new ProductCobought {
+                                ProductID = (uint) item.ProductID,
+                                CoboughtProductID = (uint) product.ProductID
+                            })
+                        ) // returns IEnumerable<Recommendation>
+                        .OrderByDescending(x => x.Score)
+                        .Take(3)
+                        .ToArray();
+                    model.Recommendations.AddRange(topThree.Select(rec => new EnrichedRecommendation {
+                            CoboughtProductID = rec.CoboughtProductID,
+                            Score = rec.Score,
+                            ProductName = db.Products.Find((long) rec.CoboughtProductID).ProductName
+                        }));
+                }
+
+                // show the best three product recommendations
+                model.Recommendations = model.Recommendations
+                    .OrderByDescending(rec => rec.Score)
+                    .Take(3)
+                    .ToList();
+            }
+            return View(model);
+        }
     }
 }
