@@ -80,6 +80,7 @@ namespace NorthwindML.Controllers
                     .Where(order => order.Customer.Country == country)
                     .Include(order => order.OrderDetails)
                     .AsEnumerable(); // switch to client-side
+
                 IEnumerable<ProductCobought> coboughtProducts = ordersInCountry.SelectMany(order => 
                     from lineItem1 in order.OrderDetails // cross-join
                     from lineItem2 in order.OrderDetails
@@ -95,7 +96,9 @@ namespace NorthwindML.Controllers
                     // make it easier for humans to read results by sorting
                     .OrderBy(p => p.ProductID)
                     .ThenBy(p => p.CoboughtProductID);
+
                 StreamWriter datasetFile = System.IO.File.CreateText(path: GetDataPath($"{country.ToLower()}-{datasetName}"));
+
                 // tab-separated header
                 datasetFile.WriteLine("ProductID\tCoboughtProductID");
 
@@ -105,6 +108,48 @@ namespace NorthwindML.Controllers
                 datasetFile.Close();
             }
             var model = CreateHomeIndexViewModel();
+            return View("Index", model);
+        }
+
+        // Action method to train the models using MatrixFactorizationTrainer
+        public IActionResult TrainModels() {
+            var stopWatch = Stopwatch.StartNew(); // Measure the time taken to train the model
+            foreach (string country in countries) {
+                var mlContext = new MLContext();
+                IDataView dataView = mlContext.Data.LoadFromTextFile(
+                    path: GetDataPath($"{country}-{datasetName}"),
+                    columns: new[] {
+                        new TextLoader.Column(name: "Label", dataKind: DataKind.Double, index: 0),
+                        // The key count is the cardinality, i.e. maximum valid value. This column is used internally
+                        // when training the model. When results are shown, the columns are mapped to instances of our
+                        // model which could have a different cardinality but happen to have the same
+                        new TextLoader.Column(name: nameof(ProductCobought.ProductID), dataKind: DataKind.UInt32,
+                            source: new[] { new TextLoader.Range(0) }, keyCount: new KeyCount(77)),
+                        new TextLoader.Column(name: nameof(ProductCobought.CoboughtProductID), dataKind: DataKind.UInt32,
+                            source: new[] { new TextLoader.Range(1) }, keyCount: new KeyCount(77))
+                    },
+                    hasHeader: true,
+                    separatorChar: '\t');
+                
+                var options = new MatrixFactorizationTrainer.Options {
+                    MatrixColumnIndexColumnName = nameof(ProductCobought.ProductID),
+                    MatrixRowIndexColumnName = nameof(ProductCobought.CoboughtProductID),
+                    LabelColumnName = "Label",
+                    LossFunction = MatrixFactorizationTrainer.LossFunctionType.SquareLossOneClass,
+                    Alpha = 0.01,
+                    Lambda = 0.025,
+                    C = 0.00001
+                };
+
+                MatrixFactorizationTrainer mft = mlContext.Recommendation()
+                    .Trainers.MatrixFactorization(options); // Initiate and configure the trainer
+                ITransformer trainedModel = mft.Fit(dataView); // Initiate learning
+                mlContext.Model.Save(trainedModel, inputSchema: dataView.Schema,
+                    filePath: GetDataPath($"{country}-model.zip")); // Store the learned model
+            }
+            stopWatch.Stop();
+            var model = CreateHomeIndexViewModel();
+            model.Milliseconds = stopWatch.ElapsedMilliseconds;
             return View("Index", model);
         }
     }
