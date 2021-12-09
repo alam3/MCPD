@@ -58,7 +58,7 @@ namespace NorthwindML.Controllers
         public IActionResult Index()
         {
             var model = CreateHomeIndexViewModel(); // create model and pass on
-            return View();
+            return View(model);
         }
 
         public IActionResult Privacy()

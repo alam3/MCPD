@@ -1,4 +1,5 @@
 ﻿@using Packt.Shared
+@using NorthwindML.Models
 @model HomeIndexViewModel
 @{
     ViewData["Title"] = "Products - Northwind ML";
@@ -32,6 +33,7 @@
                class="btn btn-outline-primary">UK</a>
         }
         @if (Model.USADatasetExists) {
+            <text>Dataset for testing:</text>
             <a href="/Data/usa-dataset.txt"
                class="btn btn-outline-primary">USA</a>
         }
